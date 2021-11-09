@@ -36,3 +36,89 @@
     transform: rotate(360deg);
   }
 }
+.homepage .homepage-stats-container {
+  padding-top: 30px;
+}
+
+.crypto-col {
+  padding: 1em;
+  max-width: 338px !important;
+}
+
+.card-img {
+  margin: 10px auto;
+  padding: 5px;
+  max-width: 45px;
+  height: 45px;
+}
+
+footer.site-footer {
+  background-color: #001529;
+  color: white;
+  display: flex;
+  justify-content: center;
+  bottom: 0;
+  flex-direction: column;
+  font-size: 15px;
+  padding: 10px;
+}
+
+.crypto-container {
+  justify-content: center;
+  margin-bottom: 25px;
+}
+
+.ant-card-body {
+  font-family: sans-serif;
+}
+
+.ant-card-bordered .ant-card-cover {
+  max-height: 80px;
+  padding: 10px;
+}
+
+.ant-table-content {
+  display: inline-table;
+}
+
+.ant-table-tbody > tr > td {
+  max-width: 200px;
+  font-size: 12px;
+}
+.details-page-container .coin-desc-container {
+  font-size: 12px;
+}
+.coin-title,
+.crypto-page-title,
+.home-page-title {
+  margin-top: 25px;
+}
+
+.details-page-container .ant-col {
+  width: 50%;
+}
+
+.coin-stats-row {
+  margin-bottom: 50px;
+}
+
+.coin-stats-row .ant-typography {
+  display: block;
+  padding: 10px 0px;
+  font-size: 17px;
+}
+
+.coin-stats-row .ant-typography > b,
+.coin-stats-row .ant-typography .anticon {
+  margin-left: 5px;
+}
+
+.coin-links-col ul li {
+  list-style: none;
+  padding: 7px;
+  font-size: 18px;
+}
+
+.coin-stats-row .ant-typography .anticon-check {
+  color: greenyellow;
+}

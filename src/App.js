@@ -1,23 +1,25 @@
-import logo from './logo.svg';
+import { Switch, BrowserRouter, Route } from 'react-router-dom';
+import Navigation from './components/navigation';
+import Homepage from './components/homepage';
+import CryptoDetail from './components/cryptoDetail';
+import Cryptocurrencies from './components/cryptocurrencies';
+import Exchanges from './components/exchanges';
+import Footer from './components/footer';
 import './App.css';
 
 function App() {
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <BrowserRouter>
+          <Navigation />
+          <Switch>
+              <Route exact path="/" component={Homepage} />
+              <Route exact path="/cryptocurrencies" component={Cryptocurrencies} />
+              <Route exact path="/crypto/:coinId" component={CryptoDetail} />
+              <Route exact path="/exchanges" component={Exchanges} />
+          </Switch>
+          <Footer />
+      </BrowserRouter>
     </div>
   );
 }
