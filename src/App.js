@@ -12,12 +12,14 @@ function App() {
     <div className="App">
       <BrowserRouter>
           <Navigation />
-          <Switch>
-              <Route exact path="/" component={Homepage} />
-              <Route exact path="/cryptocurrencies" component={Cryptocurrencies} />
-              <Route exact path="/crypto/:coinId" component={CryptoDetail} />
-              <Route exact path="/exchanges" component={Exchanges} />
-          </Switch>
+          <section className="main-content-wrap">
+            <Switch>
+                <Route exact path="/" component={Homepage} />
+                <Route exact path="/cryptocurrencies" component={Cryptocurrencies} />
+                <Route exact path="/crypto/:coinId" component={CryptoDetail} />
+                <Route exact path="/exchanges" component={Exchanges} />
+            </Switch>
+          </section>
           <Footer />
       </BrowserRouter>
     </div>

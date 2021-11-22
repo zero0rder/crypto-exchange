@@ -21,7 +21,7 @@ const Cryptocurrencies = ({limited}) => {
     return (
         <>
             <Title className="crypto-page-title">Top Cryptocurrencies</Title>
-            <Row gutter={[32,32]} className="crypto-container">
+            <Row className="crypto-container">
                 { cryptos?.map((c, i) => (
                     <Col xs={24} sm={12} lg={8} key={i} className="crypto-col">
                         <Link key={i} to={`/crypto/${c.id}`}>

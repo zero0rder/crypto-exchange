@@ -2,6 +2,10 @@
   text-align: center;
 }
 
+.App, .main-content-wrap {
+  height: inherit;
+}
+
 .App-logo {
   height: 40vmin;
   pointer-events: none;
@@ -85,13 +89,43 @@ footer.site-footer {
   max-width: 200px;
   font-size: 12px;
 }
-.details-page-container .coin-desc-container {
-  font-size: 12px;
+
+/*  ---[ DETAILS PAGE ]--- */
+.details-page-container .coin-desc-container,
+.coin-links-col {
+  padding: 20px;
+  text-align: left;
 }
+
+.coin-desc-container > h1,
+.coin-links-title {
+  color: #0C48DD !important;
+  font-weight: 700 !important;
+  font-size: 28px !important;
+}
+
+.coin-desc-container > p {
+  font-size: 16px;
+}
+
+.coin-desc-container > p strong,
+h1.coin-stats-title {
+  color: #0C48DD !important;
+  font-weight: 700 !important;
+  font-size: 24px !important;
+}
+
+h1.coin-stats-title {
+  text-align: left;
+  padding-left: 25px;
+  padding-bottom: 10px;
+}
+
 .coin-title,
 .crypto-page-title,
 .home-page-title {
   margin-top: 25px;
+  color: #0C48DD !important;
 }
 
 .details-page-container .ant-col {
@@ -99,26 +133,67 @@ footer.site-footer {
 }
 
 .coin-stats-row {
-  margin-bottom: 50px;
+  margin: 50px 0;
+  justify-content: space-evenly;
 }
 
-.coin-stats-row .ant-typography {
-  display: block;
-  padding: 10px 0px;
-  font-size: 17px;
+.coin-stats-row > .ant-col {
+  padding: 20px;
 }
 
-.coin-stats-row .ant-typography > b,
-.coin-stats-row .ant-typography .anticon {
+.coin-stats-row span.ant-typography {
+  display: flex;
+  justify-content: space-between;
+  padding: 10px 25px;
+  font-size: 18px;
+}
+
+.coin-stats-row span.ant-typography > b,
+.coin-stats-row span.ant-typography .anticon {
   margin-left: 5px;
+}
+
+.coin-stats-row .ant-divider-horizontal {
+  margin: 10px 0 !important;
 }
 
 .coin-links-col ul li {
   list-style: none;
   padding: 7px;
-  font-size: 18px;
+  font-size: 14px;
 }
 
 .coin-stats-row .ant-typography .anticon-check {
   color: greenyellow;
+}
+
+.coin-links-col > ul {
+  padding-left: 0;
+}
+
+.coin-links-row {
+  justify-content: space-between;
+}
+
+.coin-links-row .link-type {
+  text-transform: capitalize;
+}
+
+.coin-links-row .link-url {
+  font-weight: 700;
+  font-size: 1rem;
+}
+
+@media only screen and (max-width: 698px){
+  .details-page-container .coin-stats-row,
+  .details-page-container .coin-desc-link-row {
+    flex-direction: column !important;
+  }
+
+  .details-page-container > .ant-col, 
+  .details-page-container .ant-col-10,
+  .details-page-container .ant-col {
+    width: 100% !important;
+    max-width: 100% !important;
+  }
 }

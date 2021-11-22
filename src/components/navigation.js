@@ -8,13 +8,13 @@ const Navigation = () => {
     return (
         <div className="navbar">
             <Menu theme="dark" mode="horizontal">
-                <Menu.Item icon={<HomeOutlined/>}>
+                <Menu.Item key="1" icon={<HomeOutlined/>}>
                     <Link to="/">Home</Link>
                 </Menu.Item>
-                <Menu.Item icon={<FundOutlined/> }>
+                <Menu.Item key="2" icon={<FundOutlined/> }>
                     <Link to="/cryptocurrencies">Crypto</Link>
                 </Menu.Item>
-                <Menu.Item icon={<MoneyCollectOutlined/>}>
+                <Menu.Item key="3" icon={<MoneyCollectOutlined/>}>
                     <Link to="/exchanges">Exchanges</Link>
                 </Menu.Item>
             </Menu>
