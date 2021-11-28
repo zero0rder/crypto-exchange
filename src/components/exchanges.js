@@ -1,7 +1,10 @@
 import React from 'react';
 import { useGetExchangesQuery } from '../services/cryptocurrencies';
 import millify from 'millify';
-import { Spin, Table } from 'antd';
+import HTMLReactParser from 'html-react-parser';
+import { Collapse, Spin, Row, Col, Typography, Avatar } from 'antd';
+const { Text } = Typography;
+const { Panel } = Collapse;
 
 const Exchanges = () => {
     const {data: exchangeData, isFetching } = useGetExchangesQuery();
@@ -9,56 +12,44 @@ const Exchanges = () => {
 
     if (isFetching) return <Spin />;
 
-    const exchangeColumns = [
-        {
-            title: 'Name',
-            dataIndex: 'name',
-            key: 'name'
-        },
-        {
-            title: 'Rank',
-            dataIndex: 'rank',
-            key: 'rank'
-        },
-        {
-            title: '# of Markets',
-            dataIndex: 'numOfMrkts',
-            key: 'numOfMrkts'
-        },
-        {
-            title: 'Volume (24h)',
-            dataIndex: 'volume',
-            key: 'volume'
-        },
-        {
-            title: 'Market Share',
-            dataIndex: 'mrktShare',
-            key: 'mrktShare'
-        },
-        {
-            title: 'Website',
-            dataIndex: 'website',
-            key: 'website'
-        }
-    ];
+    return (
+        <>
+            <Row className="exhange-header">
+                <Col span={6}>Exchanges</Col>
+                <Col span={6}>24h Trade Volume</Col>
+                <Col span={6}>Markets</Col>
+                <Col span={6}>Change</Col>
+            </Row>
+            <Row className="exhange-content">
+                {exchanges.map((exchange) => (
+                    <Col span={24}>
+                        <Collapse>
+                            <Panel
+                                key={exchange.id}
+                                showArrow={false}
+                                header={(
+                                <Row key={exchange.id}>
+                                    <Col span={6}>
+                                    <Text><strong>{exchange.rank}.</strong></Text>
+                                    <Avatar className="exchange-image" src={exchange.iconUrl} />
+                                    <Text><strong>{exchange.name}</strong></Text>
+                                    </Col>
+                                    <Col span={6}>${millify(exchange.volume)}</Col>
+                                    <Col span={6}>{millify(exchange.numberOfMarkets)}</Col>
+                                    <Col span={6}>{millify(exchange.marketShare)}%</Col>
+                                </Row>
+                                )}>
+                                {HTMLReactParser(exchange.description || '')}
+                            </Panel>
+                        </Collapse>
+                    </Col>
+                ))}
+            </Row>
+        </>
+    )
     
-    const xchges = exchanges.map(x => {
-        const xchng = {
-            key: x.id,
-            name: x.name,
-            rank: x.rank,
-            numOfMrkts: x.numberOfMarkets,
-            volume: `$${millify(x.volume)}`,
-            mrktShare: `${millify(x.marketShare)}%`,
-            website: x.websiteUrl
-        };
-        
-        return xchng;
-
-    });
-
-    return <Table columns={exchangeColumns} dataSource={xchges} pagination={false}/>;
 }
+
 
 
 export default Exchanges;

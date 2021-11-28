@@ -122,10 +122,8 @@ h1.coin-stats-title {
 }
 
 .coin-title,
-.crypto-page-title,
-.home-page-title {
+.crypto-page-title {
   margin-top: 25px;
-  color: #0C48DD !important;
 }
 
 .details-page-container .ant-col {
@@ -182,6 +180,23 @@ h1.coin-stats-title {
 .coin-links-row .link-url {
   font-weight: 700;
   font-size: 1rem;
+}
+
+.exhange-header {
+  padding: 12px;
+  text-align: left;
+}
+
+.exhange-content {
+  text-align: left;
+}
+
+.exhange-content .ant-avatar-image {
+  margin: 0 10px!important;
+}
+
+.ant-collapse-content-box {
+  text-align: left;
 }
 
 @media only screen and (max-width: 698px){
