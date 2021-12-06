@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import Cryptocurrencies from './cryptocurrencies';
 import { useGetCryptosQuery } from '../services/cryptocurrencies';
 import millify from 'millify';
