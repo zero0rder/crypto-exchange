@@ -1,13 +1,13 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { Menu } from 'antd';
-import { HomeOutlined, MoneyCollectOutlined, BulbOutlined, FundOutlined, MenuOutlined } from '@ant-design/icons';
+import { HomeOutlined, MoneyCollectOutlined, FundOutlined, MenuOutlined } from '@ant-design/icons';
 
 const Navigation = () => {
 
     return (
         <div className="navbar">
-            <Menu theme="dark" mode="horizontal">
+            <Menu theme="dark" mode="horizontal" overflowedIndicator={<MenuOutlined/>} triggerSubMenuAction="click">
                 <Menu.Item key="1" icon={<HomeOutlined/>}>
                     <Link to="/">Home</Link>
                 </Menu.Item>

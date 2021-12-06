@@ -199,6 +199,13 @@ h1.coin-stats-title {
   text-align: left;
 }
 
+.ant-menu-vertical {
+  position: relative;
+  max-width: 25%;
+  top: -8px;
+  left: -20px;
+}
+
 @media only screen and (max-width: 698px){
   .details-page-container .coin-stats-row,
   .details-page-container .coin-desc-link-row {
@@ -211,4 +218,9 @@ h1.coin-stats-title {
     width: 100% !important;
     max-width: 100% !important;
   }
+
+  .ant-menu {
+    flex-direction: column;
+  }
+
 }
