@@ -1,43 +1,48 @@
-import React, { useEffect, useState } from 'react';
-import { useGetCryptosQuery } from '../services/cryptocurrencies';
-import { Spin, Card, Row, Col, Typography, Divider } from 'antd';
+import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import millify from 'millify';
+import { getCryptos } from '../api/index';
+import { Spin, Card, Row, Col, Typography, Divider } from 'antd';
 const { Meta } = Card;
 const  { Title } = Typography;
 
-const Cryptocurrencies = ({limited}) => {
-    const count = limited ? 10 : 100;
-    const {data: cryptoData, isFetching } = useGetCryptosQuery(count);
+const Cryptocurrencies = ({limit}) => {
     const [cryptos, setCryptos] = useState();
-    
+    const fetchedCryptos = getCryptos(limit);
+    const cryptoData = cryptos?.data;
+
     useEffect(() => {
-        setCryptos(cryptoData?.data?.coins);
+        const setCryptoData = async () => {
+            const res = await fetchedCryptos;
+            setCryptos(res);
+        };
 
-    }, [cryptoData]);
-
-    if (isFetching) return <Spin />;
+        setCryptoData();
+        
+    }, []);
     
     return (
         <>
             <Title className="crypto-page-title">Top Cryptocurrencies</Title>
             <Row className="crypto-container">
-                { cryptos?.map((c, i) => (
-                    <Col xs={24} sm={12} lg={8} key={i} className="crypto-col">
-                        <Link key={i} to={`/crypto/${c.id}`}>
-                            <Card
-                            className='crypto-card'
-                            key={i} 
-                            hoverable
-                            cover={<img className='card-img' alt={c.type} src={c.iconUrl}/>}>
-                                <Divider><Meta title={c.name} /></Divider>
-                                <p>Price: ${millify(c.price)}</p>
-                                <p>Market Cap: ${millify(c.marketCap)}</p>
-                                <p>Daily % Change: {c.change}</p>
-                            </Card>
-                        </Link>
-                    </Col>
-                ))}
+                { 
+                    cryptoData?.map((c, i) => (
+                        <Col xs={24} sm={12} lg={8} key={i} className="crypto-col">
+                            <Link key={i} to={`/crypto/${c?.id}`}>
+                                <Card
+                                className='crypto-card'
+                                key={i} 
+                                hoverable
+                                cover={<img className='card-img' alt='crypto' src=''/>}>
+                                    <Divider><Meta title={c?.name} /></Divider>
+                                    <p>Price: ${millify(c?.quote?.USD?.price)}</p>
+                                    <p>Market Cap: ${millify(c?.quote?.USD?.market_cap)}</p>
+                                    <p>Daily Change: {`${millify(c?.quote?.USD?.percent_change_24h)}%`}</p>
+                                </Card>
+                            </Link>
+                        </Col>
+                    ))
+                }
             </Row>
         </>
     );
