@@ -52,3 +52,14 @@ export const getCryptoQuote = async (req, res) => {
         return console.error('server request failed: ', err);
     }
 }
+
+export const getGlobalCryptoData = async (req, res) => {
+    try {
+        const response = await fetch(`${baseUrl}/v1/global-metrics/quotes/latest`, reqOptions);
+        const data = await response.json();
+        res.json(data);
+
+    } catch(err) {
+        return console.error('server request failed: ', err);
+    }
+}
