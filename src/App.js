@@ -1,28 +1,20 @@
-import { Switch, BrowserRouter, Route } from 'react-router-dom';
-import Navigation from './components/navigation';
-import Homepage from './components/homepage';
-import CryptoDetail from './components/cryptoDetail';
-import Cryptocurrencies from './components/cryptocurrencies';
-import Exchanges from './components/exchanges';
-import Footer from './components/footer';
 import './App.css';
+import { Outlet } from 'react-router-dom';
+import MainHeader from './components/layout/mainHeader';
+import MainFooter from './components/layout/mainFooter';
+import { Layout} from 'antd';
+const { Content } = Layout;
+
 
 function App() {
   return (
-    <div className="App">
-      <BrowserRouter>
-          <Navigation />
-          <section className="main-content-wrap">
-            <Switch>
-                <Route exact path="/" component={Homepage} />
-                <Route exact path="/cryptocurrencies" component={Cryptocurrencies} />
-                <Route exact path="/crypto/:coinId" component={CryptoDetail} />
-                <Route exact path="/exchanges" component={Exchanges} />
-            </Switch>
-          </section>
-          <Footer />
-      </BrowserRouter>
-    </div>
+    <Layout className="App">
+      <MainHeader />
+      <Content className="main-content-wrap">
+        <Outlet />
+      </Content>
+      <MainFooter />
+    </Layout>
   );
 }
 

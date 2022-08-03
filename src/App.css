@@ -1,37 +1,9 @@
-.App {
-  text-align: center;
-}
-
-.App, .main-content-wrap {
-  height: inherit;
-}
-
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
-}
-
+/*
 @media (prefers-reduced-motion: no-preference) {
   .App-logo {
     animation: App-logo-spin infinite 20s linear;
   }
-}
-
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
-}
-
-.App-link {
-  color: #61dafb;
-}
-
+} 
 @keyframes App-logo-spin {
   from {
     transform: rotate(0deg);
@@ -39,23 +11,32 @@
   to {
     transform: rotate(360deg);
   }
-}
-.homepage .homepage-stats-container {
-  padding-top: 30px;
+} 
+*/
+
+/*  ---[ Utility Classes ]--- */
+.component-title {
+  text-align: center;
+  text-transform: uppercase;
+  margin-top: 0.5em;
 }
 
-.crypto-col {
-  padding: 1em;
-  max-width: 338px !important;
+/*  ---[ Global Metric Comp ]--- */
+.global-metrics-container {
+  justify-content: center;
 }
 
-.card-img {
-  margin: 10px auto;
-  padding: 5px;
-  max-width: 45px;
-  height: 45px;
+.ant-statistic {
+  text-align: center;
 }
 
+/*  ---[ Crypto Comp ]--- */
+.crypto-container {
+  margin-bottom: 25px;
+  flex-direction: column;
+}
+
+/*  ---[ Footer Comp ]--- */
 footer.site-footer {
   background-color: #001529;
   color: white;
@@ -65,29 +46,6 @@ footer.site-footer {
   flex-direction: column;
   font-size: 15px;
   padding: 10px;
-}
-
-.crypto-container {
-  justify-content: center;
-  margin-bottom: 25px;
-}
-
-.ant-card-body {
-  font-family: sans-serif;
-}
-
-.ant-card-bordered .ant-card-cover {
-  max-height: 80px;
-  padding: 10px;
-}
-
-.ant-table-content {
-  display: inline-table;
-}
-
-.ant-table-tbody > tr > td {
-  max-width: 200px;
-  font-size: 12px;
 }
 
 /*  ---[ DETAILS PAGE ]--- */
