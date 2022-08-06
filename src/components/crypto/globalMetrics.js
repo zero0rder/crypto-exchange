@@ -5,6 +5,7 @@ import { Row, Typography, Divider, Spin, Col, Statistic } from 'antd';
 const  { Title } = Typography;
 
 const GlobalMetrics = () => {
+    const [isLoading, setIsLoading] = useState(true);
     const [globalState, setGlobalState] = useState();
     const globalData = globalState?.data;
     
@@ -13,13 +14,14 @@ const GlobalMetrics = () => {
         const setGlobalData = async () => {
             const res = await fetchedGlobalData;
             setGlobalState(() => res);
+            setIsLoading(false);
         };
         
         setGlobalData();
         
     }, []);
 
-    if (globalData === undefined) return <Spin/>;
+    if (isLoading) return <Spin/>;
 
     return (
         <>
