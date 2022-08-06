@@ -6,7 +6,7 @@ const Dashboard = () => {
     return (
         <div className="dashboard">
             <GlobalMetrics /> 
-            <Cryptos limit={10}/>
+            <Cryptos limit={50} />
         </div>
     );
 }
