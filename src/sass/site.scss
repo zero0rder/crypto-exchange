@@ -1,0 +1,8 @@
+//=> import all of our .scss files
+@use './imports/_index.scss';
+@use './imports/_app.scss';
+@use './imports/_crypto.scss';
+@use './imports/_metrics.scss';
+@use './imports/_account.scss';
+@use './imports/_auth.scss';
+@use './imports/_footer.scss';

@@ -1,0 +1,25 @@
+/* ---[ Account Page ]--- */
+.account-page {
+    .account-header {
+        > div {
+            text-align: center;
+            padding: 1rem;
+
+            > .ant-statistic > div {
+                font-size: 1.75rem;
+
+                &:first-child {
+                    letter-spacing: 0.10rem;
+                }
+            }
+
+            > span {
+                font-size: 1rem;
+            }
+        }
+    }
+
+    .account-content {
+        margin: 0 2em;
+    }
+}

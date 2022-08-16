@@ -1,0 +1,25 @@
+/*  ---[ Main Footer ]--- */
+footer.site-footer {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 10px;
+    bottom: 0;
+    background-color: #001529;
+    color: white;
+    font-size: 15px;
+
+    > span {
+        &:first-child {
+            font-size: 1rem;
+            font-weight: bold;
+            letter-spacing: 0.2rem;
+            margin-bottom: 0.25rem;
+        }
+
+        &:last-child {
+            font-size: 0.85rem;
+        }
+    }
+}
