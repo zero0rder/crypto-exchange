@@ -21,5 +21,40 @@
 
     .account-content {
         margin: 0 2em;
+
+        table .ant-avatar {
+            margin-right: 1em;
+        }
+
+        .ant-table-footer {
+            > div {
+                display: flex;
+                font-weight: bold;
+
+                > p {
+                    width: 32%;
+                }
+
+                > div {
+                    width: 70%;
+                    display: flex;
+
+                    > span {
+                        &:first-child{
+                            width: 27%;
+                        }
+
+                        &:nth-child(2){
+                            width: 37%;
+                        }
+
+                        &:last-child{
+                            width: 30%;
+                        }
+                    }
+
+                }
+            }
+        }
     }
 }
