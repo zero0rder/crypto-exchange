@@ -43,8 +43,6 @@ const Cryptocurrencies = ({limit}) => {
                 volume: data?.quote?.USD?.volume_24h
             };
 
-            console.log('newState', state)
-
             setModalData(() => state);
             setModalVisible(true);
         }
@@ -103,6 +101,8 @@ const Cryptocurrencies = ({limit}) => {
         return data;
     }
 
+    const isTrending = modalData?.change > 0;
+
     return (
         <Row className='crypto-container'>
             { limit && (<div><Button shape='round'><Link to='/cryptos'>All Assets</Link></Button></div>) }
@@ -121,7 +121,7 @@ const Cryptocurrencies = ({limit}) => {
                                 <h2>{modalData?.name}<span>{`(${modalData?.symbol})`}</span></h2>
                                 <div className='modal-top-section'>
                                     <span>${modalData?.price.toLocaleString('en-US')}</span>
-                                    <span style={modalData?.change > 0 ? {color: 'green'} : {color: 'red'}}>{millify(modalData?.change)}%</span>
+                                    <span style={isTrending ? {color: 'green'} : {color: 'red'}}>{isTrending ? '+' : ''}{millify(modalData?.change)}%</span>
                                 </div>
                                 <div className='modal-bottom-section'>
                                     <span><b>Rank:</b> # {modalData?.rank}</span>
