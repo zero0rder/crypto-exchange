@@ -1,0 +1,163 @@
+.details-page-container {
+
+    .details-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 2rem;
+
+        > div {
+            display: flex;
+            align-items: center;
+
+            > span {
+                background-color: blue;
+                height: 5rem;
+                width: 5rem;
+                margin-right: 1.5rem;
+            }
+            
+            h1 {
+                font-size: 2.75rem;
+                margin: 0 0.5rem 0 0;
+                font-weight: bold;
+            }
+        
+            h2 {
+                margin: 0;
+                font-weight: bold;
+                color: grey;
+            }
+        }
+    
+    
+    }
+
+    .details-overview {
+        justify-content: space-around;
+        padding: 1rem 2rem;
+
+        > .ant-divider {
+            margin: 1rem 0;
+        }
+
+        .ant-card {
+            border-color: lightgray;
+            border-radius: 5px;
+            height: 100%;
+
+            .ant-card-body {
+                min-height: 25rem;
+                padding: 1rem;
+
+                > span {
+                    &:first-child {
+                        font-size: 2rem;
+                        font-weight: 500;
+                    }
+
+                    &.volumeTicker {
+                        vertical-align: top;
+                        line-height: 2.5rem;
+                        padding-left: 0.75rem;
+                        font-weight: 500;
+                        font-size: 1rem;
+                    }
+                }
+
+                .details-market-stats {
+
+                    h2 {
+                        font-size: 1rem;
+                        font-weight: bold;
+                    }
+
+                    > div {
+                        display: flex;
+
+                        > div {
+                            width: 25%;
+                            text-align: center;
+
+                            > span:first-child {
+                                display: block;
+                                font-size: 0.75rem;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        .details-buy-box-container {
+            > h3 {
+                text-align: center;
+                font-size: 1.5rem;
+                font-weight: bold;
+                margin-bottom: 1rem;
+            }
+
+            .details-buy-box-top {
+                text-align: center;
+                margin-bottom: 3rem;
+
+                span {
+                    font-size: 4rem;
+    
+                    &[role='img']{
+                        font-size: 1.5rem;
+                        cursor: pointer;
+                    }
+                }
+
+                .buy-box-qty {
+                    margin: 0 0.75rem;
+                    font-size: 1.5rem;
+                    font-weight: 500;
+                }
+            }
+
+            .details-buy-box-bottom {
+                text-align: center;
+
+                > span {
+                    font-weight: bold;
+                    font-size: 1.5rem;
+               }
+
+               > div {
+                    text-align: center;
+                    padding-top: 2rem;
+
+                    > button {
+                        width: 6.75rem;
+                        height: 2.75rem;
+                    }
+               }
+            }
+        }
+    }
+    
+    .details-desc-links {
+        padding: 0 2rem 2rem;
+        justify-content: space-between;
+
+        .ant-divider {
+            margin: 1rem 0;
+        }
+
+        ul {
+            list-style: none;
+            padding: inherit;
+
+            li > div {
+                align-items: center;
+
+                h3 {
+                    margin-bottom: 0;
+                    margin-right: 0.75rem;
+                }
+            }
+        }
+    }
+}
