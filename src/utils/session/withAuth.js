@@ -8,21 +8,22 @@ const withAuth = Component => {
         constructor(props){
             super(props);
             this.state = {
-                authUser: null
+                authUser: null,
+                setAuthUser: (user) => this.setState((prev) => ({ ...prev, authUser: user }))
             };
         }
 
         //This observer gets called whenever the user's sign-in state changes
         componentDidMount(){
-            this.props?.firebase?.getOnAuthStateChanged(user => user ? this.setState({ authUser: user.uid }) : this.setState({ authUser: null }));
+            this.props?.firebase?.getOnAuthStateChanged(user => user ? this.setState((prev) => ({ ...prev, authUser: user.uid })) : this.setState((prev) => ({ ...prev, authUser: null })));
         }
 
         // componentWillUnmount(){}
 
         render (){
             return (
-                <AuthUserContext.Provider value={this.state.authUser}>
-                    <Component {...this.props} /> 
+                <AuthUserContext.Provider value={{ authUser: this.state.authUser, setAuthUser: this.state.setAuthUser }} >
+                    <Component { ...this.props } /> 
                 </AuthUserContext.Provider>
             )
         }
