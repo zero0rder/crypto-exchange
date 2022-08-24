@@ -6,7 +6,10 @@
 .component-title {
     text-align: center;
     text-transform: uppercase;
-    margin-top: 0.5em;
+    margin: 1em 0 !important;;
 }
 
-
+.ant-spin {
+    display: flex !important;
+    justify-content: center !important;
+}

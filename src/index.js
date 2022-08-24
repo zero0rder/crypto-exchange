@@ -1,19 +1,45 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
-import { Provider } from 'react-redux';
-import './index.css';
+import { createRoot } from 'react-dom/client';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import Firebase, { FirebaseContext } from './utils/firebase/index';
 import App from './App';
+import Dashboard from './components/dashboard';
+import CryptoDetail from './components/crypto/cryptoDetail';
+import Cryptos from './components/crypto/cryptos';
+import Account from './components/account/account';
+import SignUpPage from './components/account/signUp';
+import SignInPage from './components/account/signIn';
+import NotFound from './components/layout/notFound';
+import { RequireAuth } from './utils/session';
 import reportWebVitals from './reportWebVitals';
-import store from './store/store';
-import 'antd/dist/antd.css';
+import './sass/site.scss';
+import 'antd/dist/antd.min.css';
 
-ReactDOM.render(
+const container =  document.getElementById('root');
+const root = createRoot(container);
+
+root.render(
   <React.StrictMode>
-    <Provider store={store}>
-      <App />
-    </Provider>
-  </React.StrictMode>,
-  document.getElementById('root')
+    <FirebaseContext.Provider value={new Firebase()}>
+        <BrowserRouter>
+            <Routes>
+                <Route path='/' element={<App/>}>
+                  <Route index element={<Dashboard/>}/>
+                  <Route path='/cryptos' element={<Cryptos/>}/>
+                  <Route path='/account' element={
+                    <RequireAuth>
+                      <Account/>
+                    </RequireAuth>
+                  }/>
+                  <Route path='/crypto/:coinId' element={<CryptoDetail/>}/>
+                  <Route path='/signup' element={<SignUpPage/>}/>
+                  <Route path='/signin' element={<SignInPage/>}/>
+                  <Route path='*' element={<NotFound/>}/>
+                </Route>
+            </Routes>
+        </BrowserRouter>
+    </FirebaseContext.Provider>
+  </React.StrictMode>
 );
 
 // If you want to start measuring performance in your app, pass a function
