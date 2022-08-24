@@ -7,9 +7,8 @@ const MainFooter = () => {
 
     return (
         <Footer className="site-footer">
-            <span>Crypto Desktop App</span>
+            <span>Crypto Exchange App</span>
             <span>All Rights Reserved <CopyrightOutlined /> {new Date().getFullYear()}</span>
-            <span></span>
         </Footer>
     )
 };

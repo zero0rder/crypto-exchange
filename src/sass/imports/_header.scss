@@ -1,0 +1,36 @@
+header.navbar {
+    position: relative;
+
+    span.settings-button {
+        position: absolute;
+        right: 0;
+        top: 0;
+        height: inherit;
+        padding-right: 2rem;
+        color: hsla(0,0%,100%,.65);
+
+        > span {
+            font-size: 1.25rem;
+            vertical-align: middle;
+            cursor: pointer;
+        }
+    }
+}
+
+.ant-popover-title {
+    text-align: center;
+    font-size: 0.75rem;
+}
+
+.ant-popover-inner-content {
+    text-align: center;
+    
+    > div.logged-out {
+        display: flex;
+        justify-content: space-between;
+
+        > button {
+            width: 68px;
+        }
+    }
+}
