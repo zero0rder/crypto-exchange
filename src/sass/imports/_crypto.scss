@@ -7,105 +7,16 @@
         margin: 1em 0;
     }
 
-    table .ant-avatar {
-      margin-right: 1em;
-    }
-}
-  
+    table {
+        .ant-table-cell {
 
-/*  ---[ Crypto Comp Modal ]--- */
-
-.ant-modal-header {
-    .ant-avatar {
-        display: none;
-    }
-
-    .ant-modal-title {
-        text-align: center;
-        font-size: 1.25rem;
-        font-weight: 700;
-    }
-}
-
-.ant-modal-body {
-    padding: 1rem !important;
-    
-    .modal-buy-box-container {
-        display: flex;
-
-        > div {
-            width: 50%;
-
-            h2 {
-                font-size: 1.75rem;
-                margin-bottom: 0;
-
-                span {
-                    margin-left: 0.5rem;
-                    font-size: 1.25rem;
-                }
+            .ant-avatar {
+              margin-right: 1em;
             }
-
-            &:last-child {
-                padding: 0.5rem;
-            }
-
-            .modal-top-section {
-                span {
-                    &:first-child {
-                        margin-right: 0.5rem;
-                        font-size: 1.5rem;
-                        font-weight: 500;
-                    }
-
-                    &:last-child {
-                        vertical-align: top;
-                        line-height: 1.7rem;
-                    }
-                }
-            }
-
-            .modal-bottom-section {
-                margin-top: 1rem;
-
-                > span {
-                    display: block;
-                }
-            }
-        }
-
-        .modal-buy-box-top {
-            text-align: center;
-            margin-bottom: 3rem;
-
-            h2 {
-                margin-bottom: 0;
-            }
-
-            span {
-                font-size: 2rem;
-
-                &[role='img']{
-                    font-size: 1.25rem;
-                    cursor: pointer;
-                }
-            }
-
-            .ant-divider {
-                margin: 0.5rem 0;
-            }
-
-            .buy-box-qty {
-                margin: 0 0.75rem;
-                font-size: 1.25rem;
-                font-weight: 500;
-            }
-        }
-
-        .modal-buy-box-bottom {
-            > span {
-               font-size: 1.25rem;
-           }
+            
+             > span > a {
+                color: #000;
+             }
         }
     }
 }
