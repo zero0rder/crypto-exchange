@@ -11,9 +11,7 @@
   "license": "MIT",
   "type": "module",
   "scripts": {
-    "start": "node index.js",
-    "start:dev": "nodemon index.js",
-    "build": "webpack --config webpack.config.js"
+    "start": "node index.js"
   },
   "dependencies": {
     "cors": "^2.8.5",
