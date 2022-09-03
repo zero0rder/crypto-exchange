@@ -5,7 +5,6 @@ const getSavedValue = (key, value) => {
 
     if(res) return res;
     if(value instanceof Function) return value();
-
     return value;
 }
 
@@ -18,6 +17,5 @@ const useLocalStorage = (key, val) => {
 
     return [storedValue, setStoredvalue];
 }
-
 
 export default useLocalStorage;
