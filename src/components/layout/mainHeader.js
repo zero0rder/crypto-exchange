@@ -1,10 +1,11 @@
 import React, { useState, useContext } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
-import { Menu, Layout, Popover, Button } from 'antd';
+import { Menu, Layout, Popover, Button, Grid, Drawer } from 'antd';
 import { HomeOutlined, AccountBookOutlined, FundOutlined, MenuOutlined, SettingOutlined } from '@ant-design/icons';
 import { AuthUserContext } from '../../utils/session/index';
 import SignOut from '../account/signOut';
 const { Header } = Layout;
+const { useBreakpoint } = Grid;
 
 const menuItems = [
     {
@@ -41,29 +42,54 @@ const PopoverContent = () => {
 
 const MainHeader = () => {
     const navigate = useNavigate();
-    const [visible, setVisible] = useState(false);
-
-    // const hide = () => setVisible(false);
-    const handleVisibleChange = newVisible => setVisible(newVisible);
+    const [popoverVisible, setPopoverVisible] = useState(false);
+    const [drawerVisible, setDrawerVisible] = useState(false);
+    const handleVisibleChange = newVisible => setPopoverVisible(newVisible);
+    const toggleDrawer = () => setDrawerVisible(prev => !prev);
+    const onClose = () => setDrawerVisible(false);
+    const screens = useBreakpoint();
 
     return (
-        <Header className="navbar">
-            <Menu theme="dark" 
-                mode="horizontal"
-                items={menuItems} 
-                overflowedIndicator={<MenuOutlined/>}
-                onClick={(e) => navigate(e.key)} />
-                <span className='settings-button'>
-                    <Popover
-                     content={<PopoverContent/>}
-                     title="Settings"
-                     trigger="click"
-                     visible={visible}
-                     onVisibleChange={handleVisibleChange}
-                     placement='bottomRight'>
-                        <SettingOutlined/>
-                    </Popover>
-                </span>
+        <Header className="navbar" style={ screens.xs ? {padding: '0 32px'} : {}}>
+            { screens.xs ? (
+                <>
+                    <MenuOutlined onClick={() => toggleDrawer()}/>
+                    <Drawer 
+                        title="Crypto Exchange" 
+                        placement="left" 
+                        onClose={onClose} 
+                        visible={drawerVisible} 
+                        width='70%'>
+                            {
+                                menuItems?.map((m, i) => (
+                                    <div key={i}>
+                                        <span onClick={() => navigate(m.key)}>
+                                            <span>{ m.icon }</span>
+                                            <span>{ m.label }</span>
+                                        </span>
+                                    </div>
+                                ))
+                            }
+                    </Drawer>
+                </>
+            ) : (
+                <Menu theme="dark" 
+                    mode='horizontal'
+                    items={menuItems}
+                    onClick={(e) => navigate(e.key)} /> 
+                )
+            }
+            <span className='settings-button'>
+                <Popover
+                    content={<PopoverContent/>}
+                    title="Settings"
+                    trigger="click"
+                    visible={popoverVisible}
+                    onVisibleChange={handleVisibleChange}
+                    placement='bottomRight'>
+                    <SettingOutlined/>
+                </Popover>
+            </span>
         </Header>
     );
 }

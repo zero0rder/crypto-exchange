@@ -27,20 +27,20 @@ const GlobalMetrics = () => {
         <>
             <Title className="component-title">Global Metrics</Title>
             <Row className="global-metrics-container">
-                <Col span={4}>
-                    <Statistic title="Total Cryptocurrencies" value={millify(globalData.total_cryptocurrencies)} />
+                <Col xs={12} md={4}>
+                    <Statistic title="Cryptocurrencies" value={millify(globalData.total_cryptocurrencies)} />
                 </Col>
-                <Col span={4}>
-                    <Statistic title="Total Exhanges" value={millify(globalData.total_exchanges)} />
+                <Col xs={12} md={4}>
+                    <Statistic title="Exhanges" value={millify(globalData.total_exchanges)} />
                 </Col>
-                <Col span={4}>
-                    <Statistic title="Total Market Cap" value={`$${millify(globalData.quote.USD.total_market_cap)}`}/>
+                <Col xs={12} md={4}>
+                    <Statistic title="Market Cap" value={`$${millify(globalData.quote.USD.total_market_cap)}`}/>
                 </Col>
-                <Col span={4}>
+                <Col xs={12} md={4}>
                     <Statistic title="24 Hour Volume" value={`$${millify(globalData.quote.USD.total_volume_24h)}`} />
                 </Col>
-                <Col span={4}>
-                    <Statistic title="Total Markets" value={millify(globalData.active_market_pairs)}/>
+                <Col xs={12} md={4}>
+                    <Statistic title="Markets" value={millify(globalData.active_market_pairs)}/>
                 </Col>
             </Row>
             <Divider className="section-divider"></Divider>

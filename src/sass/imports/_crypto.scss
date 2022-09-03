@@ -3,6 +3,10 @@
     margin: 0 2em;
     flex-direction: column !important;
 
+    .all-assets-link {
+        margin: 0.5rem 0;
+    }
+
     > div {
         margin: 1em 0;
     }
@@ -14,9 +18,16 @@
               margin-right: 1em;
             }
             
-             > span > a {
-                color: #000;
-             }
+             > span {
+                display: flex;
+                align-items: center;
+
+                > a {
+                    width: 65%;
+                    display: inline-block;
+                    color: #000;
+                }
+            }
         }
     }
 }

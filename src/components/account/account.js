@@ -1,7 +1,8 @@
 import React, { useContext, useState, useEffect } from 'react';
 import { AuthUserContext } from '../../utils/session/index';
-import { Avatar, Row, Col, Divider, Table, Statistic, Spin } from 'antd';
+import { Avatar, Row, Col, Divider, Table, Statistic, Spin, Grid } from 'antd';
 import useLocalStorage from '../../hooks/useLocalStorage';
+const { useBreakpoint } = Grid;
 
 const Account = () => {
     const {authUser} = useContext(AuthUserContext);
@@ -20,7 +21,7 @@ const Account = () => {
         { title: 'Name', dataIndex: 'name', key: 'name' },
         { title: 'Shares', dataIndex: 'shares', key: 'shares' },
         { title: 'Total Cost', dataIndex: 'totalCost', key: 'totalCost' },
-        { title: 'Cost Per', dataIndex: 'price', key: 'price' },
+        { title: 'Cost Per', dataIndex: 'price', key: 'price', responsive: ['lg'] },
     ];
     
     const dataSource = localUser.purchases.map((e, i) => {
@@ -59,6 +60,7 @@ const Account = () => {
 const AccountTotals = ({stats}) => {
     const [userTotals, setUserTotals] = useState();
     const [isLoading, setIsLoading] = useState(true);
+    const screens = useBreakpoint();
 
     const getTotals = () => {
         const totalsObj = {
@@ -85,10 +87,10 @@ const AccountTotals = ({stats}) => {
 
     return (
         <div>
-            <p>Totals:</p>
+            <p style={ screens.xs ? { width: '57%' } : {}}>Totals:</p>
             <div>
-                <span>{userTotals?.shares}</span>
-                <span>$ {userTotals?.totalCost}</span>
+                <span style={ screens.xs ? { width: '55%' } : {}}>{userTotals?.shares}</span>
+                <span style={ screens.xs ? { width: '74%' } : {}}>$ {userTotals?.totalCost}</span>
             </div>
         </div>
     )

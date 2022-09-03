@@ -3,9 +3,11 @@ import { Link } from 'react-router-dom';
 import millify from 'millify';
 import { getCryptos, getCryptoQuotes } from '../../api/index';
 import CryptoModal from './cryptoModal';
-import { Spin, Row, Button, Avatar, Table, Typography } from 'antd';
+import { Spin, Row, Col, Button, Avatar, Table, Typography, Grid } from 'antd';
 import useLocalStorage from '../../hooks/useLocalStorage';
 const  { Title } = Typography;
+const { useBreakpoint } = Grid;
+
 
 const Cryptocurrencies = ({limit}) => {
     const [isLoading, setIsLoading] = useState(true);
@@ -14,6 +16,7 @@ const Cryptocurrencies = ({limit}) => {
     const [modalData, setModalData] = useState(null);
     const cryptoData = cryptos?.data;
     const [localUser] = useLocalStorage('localUser', '');
+    const screens = useBreakpoint();
     
     useEffect(() => {
         const fetchedCryptos = getCryptos(limit ?? 100);
@@ -56,19 +59,18 @@ const Cryptocurrencies = ({limit}) => {
     const columns = [
         { title: 'Name', dataIndex: 'name', key: 'name' },
         { title: 'Price', dataIndex: 'price', key: 'price' },
-        { title: 'Change', dataIndex: 'change', key: 'change' },
-        { title: 'Volume (24h)', dataIndex: 'volume', key: 'volume' },
-        { title: 'Market Cap', dataIndex: 'marketCap', key: 'marketCap' },
-        { title: 'Supply', dataIndex: 'supply', key: 'supply' },
+        { title: 'Change', dataIndex: 'change', key: 'change', responsive: ['lg'] },
+        { title: 'Volume (24h)', dataIndex: 'volume', key: 'volume', responsive: ['lg'] },
+        { title: 'Market Cap', dataIndex: 'marketCap', key: 'marketCap', responsive: ['lg'] },
+        { title: 'Supply', dataIndex: 'supply', key: 'supply', responsive: ['lg'] },
         { title: 'Purchase', key: 'purchase', render: (_, rec) => (<Button onClick={() => showModal(rec?.key)} type='primary' disabled={localUser === '' ? true : false} shape='round'>Buy</Button>)}
     ];
 
-    // src={`https://cryptoicons.org/api/color/${obj.symbol.toLowerCase()}/200`}
     const dataSource = () => {
         const data = cryptoData?.map(obj => {
             return {
                 key: obj.id,
-                name: <span><Avatar style={{backgroundColor: 'blue'}}/><a href={`/crypto/${obj.id}`}>{obj.name}</a></span>,
+                name: <span><Avatar src={`https://cryptoicons.org/api/color/${obj.symbol.toLowerCase()}/200`}/><a href={`/crypto/${obj.id}`}>{obj.name}</a></span>,
                 price: `$${millify(obj.quote.USD.price)}`,
                 change: `% ${millify(obj.quote.USD.percent_change_24h)}`,
                 volume: `$${millify(obj.quote.USD.volume_24h)}`,
@@ -82,9 +84,11 @@ const Cryptocurrencies = ({limit}) => {
 
     return (
         <Row className='crypto-container'>
-            { limit ? (<div><Button shape='round'><Link to='/cryptos'>All Assets</Link></Button></div>) : (<Title className="component-title">Top Cryptocurrencies</Title>) }
-            <Table dataSource={dataSource()} columns={columns} pagination={{ pageSize: 25 }}/>
-            <CryptoModal modalData={modalData} setModalVisible={setModalVisible} modalVisible={modalVisible}/>
+            <Col>
+                { limit ? (<div className='all-assets-link'><Button shape='round'><Link to='/cryptos'>All Assets</Link></Button></div>) : (<Title style={ screens.xs ? { fontSize: '1.75rem' } : {}} className="component-title">Top Cryptocurrencies</Title>) }
+                <Table dataSource={dataSource()} columns={columns} pagination={{ pageSize: 25 }}/>
+                <CryptoModal modalData={modalData} setModalVisible={setModalVisible} modalVisible={modalVisible}/>
+            </Col>
         </Row>
     );
 }

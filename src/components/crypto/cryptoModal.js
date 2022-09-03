@@ -2,13 +2,15 @@ import React, { useState } from 'react';
 import millify from 'millify';
 import { addPurchase } from '../../api/accounts/user';
 import useLocalStorage from '../../hooks/useLocalStorage';
-import { Spin, Modal, Divider } from 'antd';
+import { Spin, Modal, Divider , Grid } from 'antd';
 import { PlusCircleOutlined, MinusCircleOutlined } from '@ant-design/icons';
+const { useBreakpoint } = Grid;
 
 const CryptoModal = ({ modalData, setModalVisible, modalVisible }) => {
     const [purchaseData, setPurchaseData] = useState({shareCount: 0, cost: 0});
     const [confirmLoading, setConfirmLoading] = useState(false);
     const [localUser, setLocalUser] = useLocalStorage('localUser', '');
+    const screens = useBreakpoint();
 
     const onOk = async () => {
         const { name, price } = modalData;
@@ -54,9 +56,9 @@ const CryptoModal = ({ modalData, setModalVisible, modalVisible }) => {
                 <div>
                     <section className='modal-buy-box-container'>
                         <div>
-                            <h2>{modalData?.name}<span>{`(${modalData?.symbol})`}</span></h2>
+                            <h2>{modalData?.name}<span style={ screens.xs ? { fontSize: '0.75rem', verticalAlign: 'super' } : {}}>{`(${modalData?.symbol})`}</span></h2>
                             <div className='modal-top-section'>
-                                <span>${modalData?.price.toLocaleString('en-US')}</span>
+                                <span style={ screens.xs ? { fontSize: '1.15rem' } : {}}>${modalData?.price.toLocaleString('en-US')}</span>
                                 <span style={isTrending ? {color: 'green'} : {color: 'red'}}>{isTrending ? '+' : ''}{millify(modalData?.change)}%</span>
                             </div>
                             <div className='modal-bottom-section'>
@@ -77,13 +79,13 @@ const CryptoModal = ({ modalData, setModalVisible, modalVisible }) => {
                                     <PlusCircleOutlined id='add-share' onClick={e => handleShareUpdates(e)}/>
                                 </div>
                                 <div className='modal-buy-box-bottom'>
-                                    <span>Total: ${purchaseData?.cost}</span>
+                                    <span style={ screens.xs ? { fontSize: '1.1rem' } : {}}>Total: ${purchaseData?.cost}</span>
                                 </div>
                             </div>
                         </div>
                     </section>
                 </div>
-            ) : <Spin/> }
+            ) : <Spin/>}
         </Modal>
     )
 }

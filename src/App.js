@@ -18,5 +18,4 @@ function App() {
   );
 }
 
-//withAuth provides Authenticated User Provider and Firebase Consumer support
 export default withAuth(App);
