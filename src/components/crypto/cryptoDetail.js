@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import HTMLReactParser from 'html-react-parser';
-import { getCryptoInfo, getCryptoQuotes } from '../../api/index';
+import { getCryptoInfo, getCryptoQuotes } from '../../api/crypto/index';
 import { addPurchase } from '../../api/accounts/user';
 import millify from 'millify';
 import { Line } from 'react-chartjs-2';
@@ -18,10 +18,11 @@ const CryptoDetail = () => {
     const [purchaseData, setPurchaseData] = useState({shareCount: 0, cost: 0})
     const coinInfo = infoState?.data[coinId];
     const coinQuote = quoteState?.data[coinId];
-    const [localUser, setLocalUser] = useLocalStorage('localUser', '');
+    const [localUser, setLocalUser] = useLocalStorage('local_user');
     const screens = useBreakpoint();
 
     useEffect(() => {
+        let init = true;
         const fetchedInfo = getCryptoInfo(coinId);
         const fetchedQuotes = getCryptoQuotes(coinId);
         
@@ -35,10 +36,14 @@ const CryptoDetail = () => {
             setQuoteState(() => res);
         };
 
-        setCoinInfo();
-        setCoinQuote();
+        if(init){
+            setCoinInfo();
+            setCoinQuote();
+        }
+
+        return () => init = false;
         
-    }, []);
+    }, [coinId]);
 
     const handleShareUpdates = (e) => {
         e.preventDefault();
@@ -155,7 +160,7 @@ const CryptoDetail = () => {
                                 <div className='details-buy-box-bottom'>
                                     <span>Total: ${purchaseData?.cost.toLocaleString('en-US', { maximumFractionDigits: 2, minimumFractionDigits: 2 })}</span>
                                     <div>
-                                        <Button type='primary' onClick={() => handlePurchase()} disabled={localUser === '' ? true : false}>Buy</Button>
+                                        <Button type='primary' onClick={() => handlePurchase()} disabled={(typeof localUser !== 'object')}>Buy</Button>
                                     </div>
                                 </div>
                             </div>

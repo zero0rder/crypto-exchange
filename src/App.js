@@ -6,7 +6,6 @@ import { Layout} from 'antd';
 const { Content } = Layout;
 
 function App() {
- 
   return (
       <Layout className="app">
         <MainHeader />

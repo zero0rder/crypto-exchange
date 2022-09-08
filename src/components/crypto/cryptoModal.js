@@ -9,7 +9,7 @@ const { useBreakpoint } = Grid;
 const CryptoModal = ({ modalData, setModalVisible, modalVisible }) => {
     const [purchaseData, setPurchaseData] = useState({shareCount: 0, cost: 0});
     const [confirmLoading, setConfirmLoading] = useState(false);
-    const [localUser, setLocalUser] = useLocalStorage('localUser', '');
+    const [localUser, setLocalUser] = useLocalStorage('local_user');
     const screens = useBreakpoint();
 
     const onOk = async () => {
@@ -23,7 +23,7 @@ const CryptoModal = ({ modalData, setModalVisible, modalVisible }) => {
         const checkoutObj = { _id, balance, name, price, ...purchaseData };
         const submitPurchase = addPurchase(checkoutObj);
         const res = await submitPurchase;
-        setLocalUser(() => res);
+        setLocalUser(res);
         setConfirmLoading(true) //show confirmed payment btn and/or alert and close modal
     }
 

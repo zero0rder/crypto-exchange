@@ -1,32 +1,36 @@
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import millify from 'millify';
-import { getCryptos, getCryptoQuotes } from '../../api/index';
+import useLocalStorage from '../../hooks/useLocalStorage';
+import { getCryptos, getCryptoQuotes } from '../../api/crypto/index';
 import CryptoModal from './cryptoModal';
 import { Spin, Row, Col, Button, Avatar, Table, Typography, Grid } from 'antd';
-import useLocalStorage from '../../hooks/useLocalStorage';
 const  { Title } = Typography;
 const { useBreakpoint } = Grid;
 
 
-const Cryptocurrencies = ({limit}) => {
+const Cryptocurrencies = ({ limit }) => {
     const [isLoading, setIsLoading] = useState(true);
     const [cryptos, setCryptos] = useState(null);
     const [modalVisible, setModalVisible] = useState(false);
     const [modalData, setModalData] = useState(null);
     const cryptoData = cryptos?.data;
-    const [localUser] = useLocalStorage('localUser', '');
     const screens = useBreakpoint();
-    
+    const [localUser, setLocalUser] = useLocalStorage('local_user');
+
     useEffect(() => {
+        let init = true;
         const fetchedCryptos = getCryptos(limit ?? 100);
         const setCryptoData = async () => {
             const res = await fetchedCryptos;
             setCryptos(() => res);
-            setIsLoading(false);
+            setIsLoading(false); 
         };
 
-        setCryptoData();
+        if(init)
+            setCryptoData();
+
+        return () => init = false;
         
     }, []);
 
@@ -63,7 +67,7 @@ const Cryptocurrencies = ({limit}) => {
         { title: 'Volume (24h)', dataIndex: 'volume', key: 'volume', responsive: ['lg'] },
         { title: 'Market Cap', dataIndex: 'marketCap', key: 'marketCap', responsive: ['lg'] },
         { title: 'Supply', dataIndex: 'supply', key: 'supply', responsive: ['lg'] },
-        { title: 'Purchase', key: 'purchase', render: (_, rec) => (<Button onClick={() => showModal(rec?.key)} type='primary' disabled={localUser === '' ? true : false} shape='round'>Buy</Button>)}
+        { title: 'Purchase', key: 'purchase', render: (_, rec) => (<Button onClick={() => showModal(rec?.key)} type='primary' disabled={(typeof localUser !== 'object')} shape='round'>Buy</Button>)}
     ];
 
     const dataSource = () => {

@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { getGlobalCryptoData } from '../../api/index';
+import { getGlobalCryptoData } from '../../api/crypto/index';
 import millify from 'millify';
 import { Row, Typography, Divider, Spin, Col, Statistic } from 'antd';
 const  { Title } = Typography;
@@ -10,6 +10,7 @@ const GlobalMetrics = () => {
     const globalData = globalState?.data;
     
     useEffect(() => {
+        let init = true;
         const fetchedGlobalData = getGlobalCryptoData();
         const setGlobalData = async () => {
             const res = await fetchedGlobalData;
@@ -17,8 +18,11 @@ const GlobalMetrics = () => {
             setIsLoading(false);
         };
         
-        setGlobalData();
-        
+        if(init)
+            setGlobalData();
+            
+        return () => init = false;
+
     }, []);
 
     if (isLoading) return <Spin/>;

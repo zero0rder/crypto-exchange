@@ -1,21 +1,18 @@
-import React, { useContext, useState, useEffect } from 'react';
-import { AuthUserContext } from '../../utils/session/index';
+import React, { useState, useEffect } from 'react';
 import { Avatar, Row, Col, Divider, Table, Statistic, Spin, Grid } from 'antd';
 import useLocalStorage from '../../hooks/useLocalStorage';
 const { useBreakpoint } = Grid;
 
 const Account = () => {
-    const {authUser} = useContext(AuthUserContext);
-    const [localUser] = useLocalStorage('localUser', '');
+    const [localUser] = useLocalStorage('local_user');
     const [accountUser, setAccountUser] = useState(null);
     const [isLoading, setIsLoading] = useState(true);
 
     useEffect(() => {
-        let user = ((typeof authUser === 'string') || (authUser === null)) ? localUser : authUser;
-        setAccountUser(user);
+        setAccountUser(localUser);
         setIsLoading(false);
 
-    }, [])
+    }, [localUser])
 
     const columns = [
         { title: 'Name', dataIndex: 'name', key: 'name' },
