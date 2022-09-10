@@ -2,7 +2,6 @@
   "name": "crypto-exch-backend",
   "version": "1.0.0",
   "description": "crypto exchange backend server",
-  "main": "index.js",
   "engines": {
     "node": "18.x",
     "npm": "8.15.0"
@@ -11,7 +10,8 @@
   "license": "MIT",
   "type": "module",
   "scripts": {
-    "start": "node index.js"
+    "start": "node dist/main.js",
+    "build": "webpack"
   },
   "dependencies": {
     "cors": "^2.8.5",
