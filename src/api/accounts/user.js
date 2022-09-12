@@ -27,7 +27,6 @@ export const deleteUser = async (id) => {
     return await fetchCryptoData(`${userUrl}/${id}`, opts).then(res => res);
 } 
 
-
 export const updateUser = async (id, user) => {
     const opts = {
         method: 'PATCH',
@@ -56,7 +55,7 @@ async function fetchCryptoData(url, opts){
         throw res;
     
     }).then(data => data).catch(err => {
-        console.log('error in api', err);
+        console.error('error in api', err);
     });
 
     return  response;
