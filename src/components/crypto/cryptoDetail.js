@@ -58,13 +58,13 @@ const CryptoDetail = () => {
     const handlePurchase = async () => {
         const totalShareCost = parseFloat(purchaseData.cost?.replace(',', ''));
         const price = coinQuote.quote.USD?.price;
-        const { name } = coinInfo;
+        const { name, id } = coinInfo;
         let { _id, balance } = localUser;
         
         purchaseData.cost = totalShareCost;
         balance = balance - totalShareCost;
 
-        const checkoutObj = { _id, balance, name, price, ...purchaseData };
+        const checkoutObj = { _id, balance, name, price, id, ...purchaseData };
         const submitPurchase = addPurchase(checkoutObj);
         const res = await submitPurchase;
         setLocalUser(() => res);
@@ -104,7 +104,7 @@ const CryptoDetail = () => {
             <Row>
                 <Col className='details-header' span={24} style={ screens.xs ? { flexDirection: 'column' } : {}}>
                     <div>
-                        <Avatar src={`https://cryptoicons.org/api/color/${coinInfo.symbol.toLowerCase()}/200`} />
+                        <Avatar src={`https://s2.coinmarketcap.com/static/img/coins/64x64/${coinInfo.id}.png`} />
                         <h1 className='title_h1'>{`${coinInfo.name}`}</h1>
                         <h2 className='title_h2'>{`(${coinInfo.symbol})`}</h2>
                     </div>

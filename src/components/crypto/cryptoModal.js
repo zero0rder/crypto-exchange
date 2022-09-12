@@ -13,14 +13,14 @@ const CryptoModal = ({ modalData, setModalVisible, modalVisible }) => {
     const screens = useBreakpoint();
 
     const onOk = async () => {
-        const { name, price } = modalData;
+        const { name, price, id } = modalData;
         let { _id, balance } = localUser;
         const totalShareCost = parseFloat(purchaseData.cost.replace(',', ''));
         
         purchaseData.cost = totalShareCost;
         balance = balance - totalShareCost;
 
-        const checkoutObj = { _id, balance, name, price, ...purchaseData };
+        const checkoutObj = { _id, balance, name, price, id, ...purchaseData };
         const submitPurchase = addPurchase(checkoutObj);
         const res = await submitPurchase;
         setLocalUser(res);

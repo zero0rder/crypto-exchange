@@ -2,7 +2,7 @@ import { Outlet } from 'react-router-dom';
 import { withAuth } from './utils/session/index';
 import MainHeader from './components/layout/mainHeader';
 import MainFooter from './components/layout/mainFooter';
-import { Layout} from 'antd';
+import { Layout } from 'antd';
 const { Content } = Layout;
 
 function App() {

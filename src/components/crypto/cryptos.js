@@ -1,13 +1,11 @@
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import millify from 'millify';
-import useLocalStorage from '../../hooks/useLocalStorage';
 import { getCryptos, getCryptoQuotes } from '../../api/crypto/index';
 import CryptoModal from './cryptoModal';
-import { Spin, Row, Col, Button, Avatar, Table, Typography, Grid } from 'antd';
+import { Spin, Row, Col, Button, Avatar, Table, Typography, Grid, Tooltip } from 'antd';
 const  { Title } = Typography;
 const { useBreakpoint } = Grid;
-
 
 const Cryptocurrencies = ({ limit }) => {
     const [isLoading, setIsLoading] = useState(true);
@@ -16,7 +14,6 @@ const Cryptocurrencies = ({ limit }) => {
     const [modalData, setModalData] = useState(null);
     const cryptoData = cryptos?.data;
     const screens = useBreakpoint();
-    const [localUser, setLocalUser] = useLocalStorage('local_user');
 
     useEffect(() => {
         let init = true;
@@ -32,14 +29,15 @@ const Cryptocurrencies = ({ limit }) => {
 
         return () => init = false;
         
-    }, []);
+    }, [limit]);
 
     const showModal = (id) => {
-            const fetchedQuotes = getCryptoQuotes(id);
-            const initModal = async () => {
+        const fetchedQuotes = getCryptoQuotes(id);
+        const initModal = async () => {
             const res = await fetchedQuotes;
             const data = res?.data[id];
             const state = {
+                id: id,
                 name: data?.name,
                 symbol: data?.symbol,
                 rank: data?.cmc_rank,
@@ -67,14 +65,14 @@ const Cryptocurrencies = ({ limit }) => {
         { title: 'Volume (24h)', dataIndex: 'volume', key: 'volume', responsive: ['lg'] },
         { title: 'Market Cap', dataIndex: 'marketCap', key: 'marketCap', responsive: ['lg'] },
         { title: 'Supply', dataIndex: 'supply', key: 'supply', responsive: ['lg'] },
-        { title: 'Purchase', key: 'purchase', render: (_, rec) => (<Button onClick={() => showModal(rec?.key)} type='primary' disabled={(typeof localUser !== 'object')} shape='round'>Buy</Button>)}
+        { title: 'Purchase', key: 'purchase', render: (_, rec) => (<Button onClick={() => showModal(rec?.key)} type='primary' shape='round'>Buy</Button>)}
     ];
 
     const dataSource = () => {
         const data = cryptoData?.map(obj => {
             return {
                 key: obj.id,
-                name: <span><Avatar src={`https://cryptoicons.org/api/color/${obj.symbol.toLowerCase()}/200`}/><a href={`/crypto/${obj.id}`}>{obj.name}</a></span>,
+                name: <span><Avatar src={`https://s2.coinmarketcap.com/static/img/coins/64x64/${obj.id}.png`}/><Tooltip placement='right' title='view details' overlayStyle={{ borderRadius: '5px'}}><a href={`/crypto/${obj.id}`}>{obj.name}</a></Tooltip></span>,
                 price: `$${millify(obj.quote.USD.price)}`,
                 change: `% ${millify(obj.quote.USD.percent_change_24h)}`,
                 volume: `$${millify(obj.quote.USD.volume_24h)}`,

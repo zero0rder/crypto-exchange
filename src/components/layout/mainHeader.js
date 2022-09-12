@@ -22,7 +22,7 @@ const menuItems = [
         key: '/account',
         icon: <AccountBookOutlined />,
         label: 'Account',
-        className: 'money-collected'
+        className: 'account'
     },
 ];
 
@@ -35,22 +35,23 @@ const NotAuthSettings = () => (
 
 const AuthSettings = () => <SignOut />;
 
-const PopoverContent = () => {
-    const { authUser } = useContext(AuthUserContext);
-    return authUser === null ? <NotAuthSettings/> : <AuthSettings />;
+const PopoverContent = ({ user }) => {
+    return user === null ? <NotAuthSettings/> : <AuthSettings />;
 };
 
 const MainHeader = () => {
     const navigate = useNavigate();
+    const { authUser } = useContext(AuthUserContext);
     const [popoverVisible, setPopoverVisible] = useState(false);
     const [drawerVisible, setDrawerVisible] = useState(false);
+    const isOpen = authUser !== null ? popoverVisible : true;
     const handleVisibleChange = newVisible => setPopoverVisible(newVisible);
     const toggleDrawer = () => setDrawerVisible(prev => !prev);
     const onClose = () => setDrawerVisible(false);
     const screens = useBreakpoint();
 
     return (
-        <Header className="navbar" style={ screens.xs ? {padding: '0 32px'} : {}}>
+        <Header className="navbar" style={ screens.xs ? {padding: '0 32px'} : {} }>
             { screens.xs ? (
                 <>
                     <MenuOutlined onClick={() => toggleDrawer()}/>
@@ -81,10 +82,10 @@ const MainHeader = () => {
             }
             <span className='settings-button'>
                 <Popover
-                    content={<PopoverContent/>}
+                    content={<PopoverContent user={authUser}/>}
                     title="Settings"
                     trigger="click"
-                    visible={popoverVisible}
+                    visible={isOpen}
                     onVisibleChange={handleVisibleChange}
                     placement='bottomRight'>
                     <SettingOutlined/>

@@ -24,7 +24,7 @@ const Account = () => {
     const dataSource = localUser.purchases.map((e, i) => {
        return {
             key: i,
-            name: <span><Avatar style={{backgroundColor: 'blue'}}/>{e.name}</span>,
+            name: <span><Avatar src={`https://s2.coinmarketcap.com/static/img/coins/64x64/${e.id}.png`}/>{e.name}</span>,
             price: `$${e.price.toLocaleString('en-US', { maximumFractionDigits: 2, minimumFractionDigits: 2 })}`,
             shares: e.shares,
             totalCost: `$${e.cost.toLocaleString('en-US', { maximumFractionDigits: 2, minimumFractionDigits: 2 })}`,
@@ -68,6 +68,7 @@ const AccountTotals = ({stats}) => {
         stats?.map(e => {
             totalsObj.totalCost += parseFloat(e.totalCost.replace('$', '').replace(',', ''));
             totalsObj.shares += parseInt(e.shares);
+            return e;
         });
 
         totalsObj.totalCost = totalsObj.totalCost.toLocaleString('en-US');
