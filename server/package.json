@@ -12,7 +12,8 @@
   "type": "module",
   "scripts": {
     "start": "node index.js",
-    "build": "webpack"
+    "build": "webpack",
+    "dev": "nodemon index.js"
   },
   "dependencies": {
     "cors": "^2.8.5",

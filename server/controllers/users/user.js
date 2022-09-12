@@ -47,7 +47,7 @@ export const updateUser = async (req, res) => {
 }
 
 export const addPurchase = async (req, res) => {
-    const { balance, _id, shareCount, cost, name, price } = req.body;
+    const { balance, _id, shareCount, cost, name, price, id } = req.body;
     
     try {
         
@@ -57,6 +57,7 @@ export const addPurchase = async (req, res) => {
 
         if(coinExists === undefined){
             purchases.push({
+                id: id,
                 name: name,
                 shares: shareCount,
                 price: price,
