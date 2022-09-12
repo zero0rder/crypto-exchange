@@ -1,5 +1,5 @@
-import React, { useContext } from 'react';
-import { /*useNavigate,*/ Link } from 'react-router-dom';
+import React from 'react';
+import { useNavigate, Link } from 'react-router-dom';
 import { withFireBase } from '../../utils/firebase/index';
 import { compose } from 'recompose';
 import { Button, Form, Input, Row, Col, Divider } from 'antd';
@@ -24,7 +24,7 @@ const SignUpPage = () => {
 
 const SignUpFormBase = ({ firebase }) => {
     const [localUser, setLocalUser ] = useLocalStorage('local_user');
-    // const navigate = useNavigate();
+    const navigate = useNavigate();
     
     const onFinish = ({ email, password, firstName, lastName }) => {
         firebase.getCreateUserWithEmailAndPassword(email, password)
@@ -46,7 +46,7 @@ const SignUpFormBase = ({ firebase }) => {
             }
 
             getDBUser();
-            // navigate('/');
+            navigate('/');
         })
         .catch(error => {
             console.error('error signing up...', error);
