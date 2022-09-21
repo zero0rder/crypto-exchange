@@ -1,5 +1,5 @@
-import GlobalMetrics from './crypto/globalMetrics';
-import Cryptos from './crypto/cryptos';
+import GlobalMetrics from './crypto/globalMetrics'
+import Cryptos from './crypto/cryptos'
 
 const Dashboard = () => {
     return (
@@ -7,7 +7,7 @@ const Dashboard = () => {
             <GlobalMetrics /> 
             <Cryptos limit={50} />
         </div>
-    );
+    )
 }
 
-export default Dashboard;
+export default Dashboard

@@ -1,17 +1,16 @@
-import React, { useState, useEffect } from 'react';
-import { Avatar, Row, Col, Divider, Table, Statistic, Spin, Grid } from 'antd';
-import useLocalStorage from '../../hooks/useLocalStorage';
-const { useBreakpoint } = Grid;
+import React, { useState, useEffect, useCallback } from 'react'
+import { Avatar, Row, Col, Divider, Table, Statistic, Spin, Grid } from 'antd'
+import useLocalStorage from '../../hooks/useLocalStorage'
+const { useBreakpoint } = Grid
 
 const Account = () => {
-    const [localUser] = useLocalStorage('local_user');
-    const [accountUser, setAccountUser] = useState(null);
-    const [isLoading, setIsLoading] = useState(true);
+    const [localUser] = useLocalStorage('local_user')
+    const [accountUser, setAccountUser] = useState(null)
+    const [isLoading, setIsLoading] = useState(true)
 
     useEffect(() => {
-        setAccountUser(localUser);
-        setIsLoading(false);
-
+        setAccountUser(localUser)
+        setIsLoading(false)
     }, [localUser])
 
     const columns = [
@@ -19,7 +18,7 @@ const Account = () => {
         { title: 'Shares', dataIndex: 'shares', key: 'shares' },
         { title: 'Total Cost', dataIndex: 'totalCost', key: 'totalCost' },
         { title: 'Cost Per', dataIndex: 'price', key: 'price', responsive: ['lg'] },
-    ];
+    ]
     
     const dataSource = localUser.purchases.map((e, i) => {
        return {
@@ -28,10 +27,10 @@ const Account = () => {
             price: `$${e.price.toLocaleString('en-US', { maximumFractionDigits: 2, minimumFractionDigits: 2 })}`,
             shares: e.shares,
             totalCost: `$${e.cost.toLocaleString('en-US', { maximumFractionDigits: 2, minimumFractionDigits: 2 })}`,
-        };
-    });
+        }
+    })
 
-    if(isLoading) return <Spin/>;
+    if(isLoading) return <Spin/>
 
     return (
         <Row className='page-container-row'>
@@ -54,34 +53,33 @@ const Account = () => {
     )
 }
 
-const AccountTotals = ({stats}) => {
-    const [userTotals, setUserTotals] = useState();
-    const [isLoading, setIsLoading] = useState(true);
-    const screens = useBreakpoint();
+const AccountTotals = ({ stats }) => {
+    const [userTotals, setUserTotals] = useState()
+    const [isLoading, setIsLoading] = useState(true)
+    const screens = useBreakpoint()
 
-    const getTotals = () => {
+    const getTotals = useCallback(() => {
         const totalsObj = {
             shares: 0,
             totalCost: 0
-        };
+        }
 
         stats?.map(e => {
-            totalsObj.totalCost += parseFloat(e.totalCost.replace('$', '').replace(',', ''));
-            totalsObj.shares += parseInt(e.shares);
-            return e;
-        });
+            totalsObj.totalCost += parseFloat(e.totalCost.replace('$', '').replace(',', ''))
+            totalsObj.shares += parseInt(e.shares)
+            return e
+        })
 
-        totalsObj.totalCost = totalsObj.totalCost.toLocaleString('en-US');
-        return totalsObj;
-    }
+        totalsObj.totalCost = totalsObj.totalCost.toLocaleString('en-US')
+        return totalsObj
+    }, [stats])
 
     useEffect(() => {
-        setUserTotals(getTotals());
-        setIsLoading(false);
+        setUserTotals(getTotals())
+        setIsLoading(false)
+    }, [getTotals])
 
-    }, []);
-
-    if(isLoading) return <Spin/>;
+    if(isLoading) return <Spin/>
 
     return (
         <div>
@@ -94,4 +92,4 @@ const AccountTotals = ({stats}) => {
     )
 }
 
-export default Account;
+export default Account
