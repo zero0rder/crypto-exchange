@@ -1,25 +1,16 @@
-const baseURL = process.env.REACT_APP_BASE_URL;
-const globalURL = `${ baseURL }/global`;
-const cryptosURL =`${ baseURL }/cryptos`;
-const exchangesURL = `${ baseURL }/exchanges`;
+import { fetchData } from '../index'
 
-export const getGlobalCryptoData = () => fetchCryptoData(`${globalURL}`);
-export const getCryptos = (limit) => fetchCryptoData(`${cryptosURL}/${limit}`);
-export const getCryptoInfo = (id) => fetchCryptoData(`${cryptosURL}/info/${id}`);
-export const getCryptoQuotes = (id) => fetchCryptoData(`${cryptosURL}/quotes/${id}`);
-export const getExchanges = (limit = 10) => fetchCryptoData(`${exchangesURL}/${limit}`);
-export const getExchangeDetail = (id) => fetchCryptoData(`${exchangesURL}/info/${id}`);
-
-async function fetchCryptoData(url){
-    const response = await fetch(url).then(res => {
-        if(res.ok)
-            return res.json();
-        
-        throw res;
-    
-    }).then(data => data).catch(err => {
-        console.error('error in api', err);
-    });
-
-    return  response;
+const baseURL = process.env.REACT_APP_BASE_URL
+const globalURL = `${ baseURL }/global`
+const cryptosURL =`${ baseURL }/cryptos`
+const exchangesURL = `${ baseURL }/exchanges`
+const opts = {
+    method: 'GET',
 }
+
+export const getGlobalStats = () => fetchData(`${globalURL}`, opts)
+export const getCryptos = (limit) => fetchData(`${cryptosURL}/${limit}`, opts)
+export const getCryptoInfo = (id) => fetchData(`${cryptosURL}/info/${id}`, opts)
+export const getCryptoQuote = (id) => fetchData(`${cryptosURL}/quotes/${id}`, opts)
+export const getExchanges = (limit = 10) => fetchData(`${exchangesURL}/${limit}`, opts)
+export const getExchangeDetail = (id) => fetchData(`${exchangesURL}/info/${id}`, opts)

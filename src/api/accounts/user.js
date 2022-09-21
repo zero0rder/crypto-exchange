@@ -1,30 +1,32 @@
-const baseURL = process.env.REACT_APP_BASE_URL;
-const userUrl = `${ baseURL }/users`;
+import { fetchData } from '../index'
+
+const baseURL = process.env.REACT_APP_BASE_URL
+const userUrl = `${ baseURL }/users`
 
 export const fetchUser = async (id) => {
     const opts = {
         method: 'GET',
-    };
+    }
 
-    return await fetchCryptoData(`${userUrl}/${id}`, opts).then(res => res)
-};
+    return await fetchData(`${userUrl}/${id}`, opts).then(res => res)
+}
 
 export const createUser = async (user) => {
     const opts = {
         method: 'POST',
         body: JSON.stringify(user),
         headers: {'Content-type': 'application/json; charset=UTF-8'},
-    };
+    }
 
-    return await fetchCryptoData(userUrl, opts).then(res => res);
+    return await fetchData(userUrl, opts).then(res => res)
 }
 
 export const deleteUser = async (id) => {
     const opts = {
         method: 'DELETE',
-    };
+    }
 
-    return await fetchCryptoData(`${userUrl}/${id}`, opts).then(res => res);
+    return await fetchData(`${userUrl}/${id}`, opts).then(res => res)
 } 
 
 export const updateUser = async (id, user) => {
@@ -32,9 +34,9 @@ export const updateUser = async (id, user) => {
         method: 'PATCH',
         body: JSON.stringify(user),
         headers: {'Content-type': 'application/json; charset=UTF-8'},
-    };
+    }
 
-    return await fetchCryptoData(`${userUrl}/${id}`, opts).then(res => res);
+    return await fetchData(`${userUrl}/${id}`, opts).then(res => res)
 }
 
 export const addPurchase = async (user) => {
@@ -42,21 +44,7 @@ export const addPurchase = async (user) => {
         method: 'PATCH',
         body: JSON.stringify(user),
         headers: {'Content-type': 'application/json; charset=UTF-8'},
-    };
+    }
 
-    return await fetchCryptoData(`${userUrl}/purchase`, opts).then(res => res);
-}
-
-async function fetchCryptoData(url, opts){
-    const response = await fetch(url, opts).then(res => {
-        if(res.ok)
-            return res.json();
-        
-        throw res;
-    
-    }).then(data => data).catch(err => {
-        console.error('error in api', err);
-    });
-
-    return  response;
+    return await fetchData(`${userUrl}/purchase`, opts).then(res => res)
 }
