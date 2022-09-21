@@ -1,52 +1,84 @@
-import React, { useState } from 'react';
-import millify from 'millify';
-import { addPurchase } from '../../api/accounts/user';
-import useLocalStorage from '../../hooks/useLocalStorage';
-import { Spin, Modal, Divider , Grid } from 'antd';
-import { PlusCircleOutlined, MinusCircleOutlined } from '@ant-design/icons';
-const { useBreakpoint } = Grid;
+import React, { useState } from 'react'
+import { useQuery, useMutation } from '@tanstack/react-query'
+import { getCryptoQuote } from '../../api/crypto/index'
+import { addPurchase } from '../../api/accounts/user'
+import useLocalStorage from '../../hooks/useLocalStorage'
+import millify from 'millify'
+import { Spin, Modal, Divider, Grid, Skeleton } from 'antd'
+import { PlusCircleOutlined, MinusCircleOutlined } from '@ant-design/icons'
+const { useBreakpoint } = Grid
 
-const CryptoModal = ({ modalData, setModalVisible, modalVisible }) => {
-    const [purchaseData, setPurchaseData] = useState({shareCount: 0, cost: 0});
-    const [confirmLoading, setConfirmLoading] = useState(false);
-    const [localUser, setLocalUser] = useLocalStorage('local_user');
-    const screens = useBreakpoint();
+const CryptoModal = ({ id, setModalVisible, modalVisible }) => {
+    const { data: quotes, isError, isLoading, error } = useQuery(['getCryptoQuote', id], () => getCryptoQuote(id))
+    const [purchaseData, setPurchaseData] = useState({shareCount: 0, cost: 0})
+    const [confirmLoading, setConfirmLoading] = useState(false)
+    const [localUser, setLocalUser] = useLocalStorage('local_user')
+    const modalData = quotes?.data[id]
+    const screens = useBreakpoint()
+    const modalInfo = {
+        id: id,
+        name: modalData?.name,
+        symbol: modalData?.symbol,
+        rank: modalData?.cmc_rank,
+        price: modalData?.quote?.USD?.price,
+        change: modalData?.quote?.USD?.percent_change_24h,
+        supply: modalData?.circulating_supply,
+        totalSupply: modalData?.total_supply,
+        marketCap: modalData?.quote?.USD?.market_cap,
+        volume: modalData?.quote?.USD?.volume_24h
+    }
+
+    const mutation = useMutation(purchase => addPurchase(purchase), {
+        onSuccess: (data) => {
+            setLocalUser(() => data)
+            setConfirmLoading(true)
+            setTimeout(() => {
+                setConfirmLoading(false)
+                setModalVisible(prev => !prev)
+            }, 3500)
+        },
+        onError: (error) => {
+            console.error(error)
+        }
+    }) 
 
     const onOk = async () => {
-        const { name, price, id } = modalData;
-        let { _id, balance } = localUser;
-        const totalShareCost = parseFloat(purchaseData.cost.replace(',', ''));
-        
-        purchaseData.cost = totalShareCost;
-        balance = balance - totalShareCost;
+        const totalShareCost = parseFloat(purchaseData.cost.replace(',', ''))
+        const purchaseObj = {
+            _id: localUser._id,
+            balance: (localUser.balance - totalShareCost),
+            name: modalInfo.name,
+            price: modalInfo.price,
+            id: modalInfo.id,
+            cost: totalShareCost,
+            shareCount: purchaseData.shareCount
+        }
 
-        const checkoutObj = { _id, balance, name, price, id, ...purchaseData };
-        const submitPurchase = addPurchase(checkoutObj);
-        const res = await submitPurchase;
-        setLocalUser(res);
-        setConfirmLoading(true) //show confirmed payment btn and/or alert and close modal
+        mutation.mutate(purchaseObj)
     }
 
     const handleShareUpdates = (e) => {
-        e.preventDefault();
-        
+        e.preventDefault()
         setPurchaseData((prev) => {
             const newShareCount = e.target.closest('span').id === 'add-share' ? prev.shareCount + 1 : (purchaseData.shareCount > 0 ? prev.shareCount - 1 : 0);
-            const newTotalPrice = modalData?.price * newShareCount;
+            const newTotalPrice = modalInfo.price * newShareCount;
             return { shareCount: newShareCount, cost: newTotalPrice.toLocaleString('en-US', { maximumFractionDigits: 2, minimumFractionDigits: 2 }) };
-        });
+        })
     }
 
     const handleCancel = () => {
-        setModalVisible(false);
-        setPurchaseData({shareCount: 0, cost: 0});
-    };
+        setModalVisible(false)
+        setPurchaseData({shareCount: 0, cost: 0})
+    }
 
-    const isTrending = modalData?.change > 0;
+    if (isLoading) return <Skeleton active />
+    if (isError) return console.error('error opening modal...', error)
+
+    const isTrending = modalInfo.change > 0;
 
     return (
         <Modal
-        title={`Purchase ${modalData?.symbol}`}
+        title={`Purchase ${modalInfo.symbol}`}
         visible={modalVisible}
         confirmLoading={confirmLoading}
         onCancel={handleCancel}
@@ -56,16 +88,16 @@ const CryptoModal = ({ modalData, setModalVisible, modalVisible }) => {
                 <div>
                     <section className='modal-buy-box-container'>
                         <div>
-                            <h2>{modalData?.name}<span style={ screens.xs ? { fontSize: '0.75rem', verticalAlign: 'super' } : {}}>{`(${modalData?.symbol})`}</span></h2>
+                            <h2>{modalInfo.name}<span style={ screens.xs ? { fontSize: '0.75rem', verticalAlign: 'super' } : {}}>{`(${modalInfo.symbol})`}</span></h2>
                             <div className='modal-top-section'>
-                                <span style={ screens.xs ? { fontSize: '1.15rem' } : {}}>${modalData?.price.toLocaleString('en-US')}</span>
-                                <span style={isTrending ? {color: 'green'} : {color: 'red'}}>{isTrending ? '+' : ''}{millify(modalData?.change)}%</span>
+                                <span style={ screens.xs ? { fontSize: '1.15rem' } : {}}>${modalInfo.price.toLocaleString('en-US')}</span>
+                                <span style={isTrending ? {color: 'green'} : {color: 'red'}}>{isTrending ? '+' : ''}{millify(modalInfo.change)}%</span>
                             </div>
                             <div className='modal-bottom-section'>
-                                <span><b>Rank:</b> # {modalData?.rank}</span>
-                                <span><b>Market Cap:</b> ${millify(modalData?.marketCap)}</span>
-                                <span><b>Volume:</b> ${millify(modalData?.volume)}</span>
-                                <span><b>Supply:</b> {millify(modalData?.supply)}</span>
+                                <span><b>Rank:</b> # {modalInfo.rank}</span>
+                                <span><b>Market Cap:</b> ${millify(modalInfo.marketCap)}</span>
+                                <span><b>Volume:</b> ${millify(modalInfo.volume)}</span>
+                                <span><b>Supply:</b> {millify(modalInfo.supply)}</span>
                             </div>
                         </div>
                         <div>
@@ -90,4 +122,4 @@ const CryptoModal = ({ modalData, setModalVisible, modalVisible }) => {
     )
 }
 
-export default CryptoModal;
+export default CryptoModal

@@ -1,49 +1,26 @@
-import React, { useState, useEffect } from 'react';
-import { useParams } from 'react-router-dom';
-import HTMLReactParser from 'html-react-parser';
-import { getCryptoInfo, getCryptoQuotes } from '../../api/crypto/index';
-import { addPurchase } from '../../api/accounts/user';
-import millify from 'millify';
-import { Line } from 'react-chartjs-2';
-import { Chart as ChartJS } from 'chart.js/auto';
-import useLocalStorage from '../../hooks/useLocalStorage';
-import { Row, Col, Divider, Spin, Avatar, Card, Button, Grid } from 'antd';
-import { StarOutlined, PlusCircleOutlined, MinusCircleOutlined  } from '@ant-design/icons';
-const { useBreakpoint } = Grid;
+import React, { useState } from 'react'
+import { useQuery, useMutation } from '@tanstack/react-query'
+import { useParams } from 'react-router-dom'
+import { getCryptoInfo, getCryptoQuote } from '../../api/crypto/index'
+import { addPurchase } from '../../api/accounts/user'
+import useLocalStorage from '../../hooks/useLocalStorage'
+import HTMLReactParser from 'html-react-parser'
+import millify from 'millify'
+import { Line } from 'react-chartjs-2'
+import { Chart as ChartJS } from 'chart.js/auto'
+import { Row, Col, Divider, Spin, Avatar, Card, Button, Grid } from 'antd'
+import { StarOutlined, PlusCircleOutlined, MinusCircleOutlined  } from '@ant-design/icons'
+const { useBreakpoint } = Grid
 
 const CryptoDetail = () => {
-    const { coinId } = useParams();
-    const [infoState, setInfoState] = useState();
-    const [quoteState, setQuoteState] = useState();
+    const { coinId } = useParams()
+    const { data: quotes, isError: isErrorQuote, isLoading: isLoadingQuote, error: errorQuote } = useQuery(['getCryptoQuote', coinId], () => getCryptoQuote(coinId))
+    const { data: info, isError: isErrorInfo, isLoading: isLoadingInfo, error: errorInfo } = useQuery(['getCryptoInfo', coinId], () => getCryptoInfo(coinId))
     const [purchaseData, setPurchaseData] = useState({shareCount: 0, cost: 0})
-    const coinInfo = infoState?.data[coinId];
-    const coinQuote = quoteState?.data[coinId];
-    const [localUser, setLocalUser] = useLocalStorage('local_user');
-    const screens = useBreakpoint();
-
-    useEffect(() => {
-        let init = true;
-        const fetchedInfo = getCryptoInfo(coinId);
-        const fetchedQuotes = getCryptoQuotes(coinId);
-        
-        const setCoinInfo = async () => {
-            const res = await fetchedInfo;
-            setInfoState(() => res);
-        };
-       
-        const setCoinQuote = async () => {
-            const res = await fetchedQuotes;
-            setQuoteState(() => res);
-        };
-
-        if(init){
-            setCoinInfo();
-            setCoinQuote();
-        }
-
-        return () => init = false;
-        
-    }, [coinId]);
+    const [localUser, setLocalUser] = useLocalStorage('local_user')
+    const coinQuote = quotes?.data[coinId]
+    const coinInfo = info?.data[coinId]
+    const screens = useBreakpoint()
 
     const handleShareUpdates = (e) => {
         e.preventDefault();
@@ -55,24 +32,34 @@ const CryptoDetail = () => {
         });
     }
 
+    const mutation = useMutation(purchase => addPurchase(purchase), {
+        onSuccess: (data) => {
+            setLocalUser(() => data)
+        },
+        onError: (error, vars) => {
+            console.error({ error, vars })
+        }
+    }) 
+    
     const handlePurchase = async () => {
-        const totalShareCost = parseFloat(purchaseData.cost?.replace(',', ''));
-        const price = coinQuote.quote.USD?.price;
-        const { name, id } = coinInfo;
-        let { _id, balance } = localUser;
-        
-        purchaseData.cost = totalShareCost;
-        balance = balance - totalShareCost;
+        const totalShareCost = parseFloat(purchaseData.cost?.replace(',', ''))
+        const purchaseObj = {
+            _id: localUser._id,
+            balance: (localUser.balance - totalShareCost),
+            name: coinInfo.name,
+            price: coinQuote.quote.USD.price,
+            id: coinInfo.id,
+            cost: totalShareCost,
+            shareCount: purchaseData.shareCount
+        }
 
-        const checkoutObj = { _id, balance, name, price, id, ...purchaseData };
-        const submitPurchase = addPurchase(checkoutObj);
-        const res = await submitPurchase;
-        setLocalUser(() => res);
+        mutation.mutate(purchaseObj)
     }
     
-    if (coinInfo === undefined || coinQuote === undefined) return <Spin/>;
+    if (isLoadingQuote || isLoadingInfo) return <Spin/>
+    if (isErrorQuote || isErrorInfo) return console.error('error getting details...', { errorQuote, errorInfo })
     
-    const isTrending = coinQuote.quote.USD.percent_change_24h > 0;
+    const isTrending = coinQuote.quote.USD.percent_change_24h > 0
     
     const chartOptions = {
         responsive: true,
@@ -86,9 +73,9 @@ const CryptoDetail = () => {
         coinQuote.quote.USD.percent_change_30d,
         coinQuote.quote.USD.percent_change_60d,
         coinQuote.quote.USD.percent_change_90d
-    ];
+    ]
 
-    const labels = ['1hr', '24h', '7d', '30d', '60d', '90d'];
+    const labels = ['1hr', '24h', '7d', '30d', '60d', '90d']
     const chartData = {
         labels: labels,
         datasets: [{
@@ -97,7 +84,7 @@ const CryptoDetail = () => {
             borderColor: '#1890ff',
             backgroundColor: '#1890ff',
         }],
-    };
+    }
     
     return (
         <div className='details-page-container'>
@@ -197,8 +184,8 @@ const CryptoDetail = () => {
                 </Col>
             </Row>
         </div>
-    );
+    )
 }
 
 
-export default CryptoDetail;
+export default CryptoDetail
