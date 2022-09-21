@@ -1,17 +1,28 @@
-import React from 'react';
-import { useNavigate } from 'react-router-dom';
-import { withFireBase } from '../../utils/firebase/index';
-import { compose } from 'recompose';
-import { SignUpLink } from "./signUp";
-import { Button, Form, Input, Row, Col, Divider } from 'antd';
-import { fetchUser } from '../../api/accounts/user';
-import useLocalStorage from '../../hooks/useLocalStorage';
+import React from 'react'
+import { useQuery } from '@tanstack/react-query'
+import { useNavigate } from 'react-router-dom'
+import { withFireBase } from '../../utils/firebase/index'
+import { fetchUser } from '../../api/accounts/user'
+import { compose } from 'recompose'
+import { SignUpLink } from "./signUp"
+import useLocalStorage from '../../hooks/useLocalStorage'
+import { Button, Form, Input, Row, Col, Divider, Alert, Grid } from 'antd'
+const { useBreakpoint } = Grid
 
 const SignInPage = () => {
+    const screens = useBreakpoint()
+
     return (
         <Row className='page-container-row'>
             <Col span={18}>
                 <section className='sign-in-page'>
+                    <Alert
+                    style={{ width: screens.xs ? '100%' : '50%' }}
+                    message="For Demo Purposes"
+                    description="Feel free to enter fake info!"
+                    type="info"
+                    showIcon
+                    banner />
                     <div>
                         <h2>Sign In</h2>
                         <Divider />
@@ -25,24 +36,31 @@ const SignInPage = () => {
 }
 
 const SignInFormBase = ({ firebase }) => {
-    const [localUser, setLocalUser] = useLocalStorage('local_user');
-    const navigate = useNavigate();
+    const [localUser, setLocalUser] = useLocalStorage('local_user')
+    const navigate = useNavigate()
+    let userId = null
+
+    const { refetch } = useQuery(['getUser', userId], () => fetchUser(userId), { 
+        enabled: false, 
+        onSuccess: (data) => {
+            setLocalUser(() => data)
+            navigate('/')
+        }, 
+        onError: (error) => {
+            console.error('error fetching user...', error)
+        }
+    })
+
     const onFinish = ({ email, password }) => {
         firebase.getSignInWithEmailAndPassword(email, password)
         .then(res => {
-            const { user: { uid } } = res;
-            const fetchedUser = fetchUser(uid);
-            const setDBUser = async () => {
-                const res = await fetchedUser;
-                setLocalUser(res);
-            }
-
-            setDBUser();
-            navigate('/');
+            const { user: { uid } } = res
+            userId = uid
+            refetch()
         })
         .catch(error => {
-            console.error('error signing in...', error);
-        });
+            console.error('error signing in...', error)
+        })
     }
 
     return (
@@ -87,6 +105,5 @@ const SignInFormBase = ({ firebase }) => {
 }
 
 const SignInForm = compose(withFireBase)(SignInFormBase)
-
-export default SignInPage;
-export { SignInForm };
+export default SignInPage
+export { SignInForm }

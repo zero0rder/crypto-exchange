@@ -1,16 +1,27 @@
-import React from 'react';
-import { useNavigate, Link } from 'react-router-dom';
-import { withFireBase } from '../../utils/firebase/index';
-import { compose } from 'recompose';
-import { Button, Form, Input, Row, Col, Divider } from 'antd';
-import { createUser } from '../../api/accounts/user';
-import useLocalStorage from '../../hooks/useLocalStorage';
+import React from 'react'
+import { useNavigate, Link } from 'react-router-dom'
+import { withFireBase } from '../../utils/firebase/index'
+import { useMutation } from '@tanstack/react-query'
+import { compose } from 'recompose'
+import { Button, Form, Input, Row, Col, Divider, Alert, Grid } from 'antd'
+import { createUser } from '../../api/accounts/user'
+import useLocalStorage from '../../hooks/useLocalStorage'
+const { useBreakpoint } = Grid
 
 const SignUpPage = () => {
+    const screens = useBreakpoint()
+
     return (
         <Row className='page-container-row'>
             <Col span={18}>
                 <section className='sign-up-page'>
+                    <Alert
+                    style={{ width: screens.xs ? '100%' : '50%' }}
+                    message="For Demo Purposes"
+                    description="Feel free to enter fake info!"
+                    type="info"
+                    showIcon
+                    banner />
                     <div>
                         <h2>Sign Up</h2>
                         <Divider />
@@ -23,13 +34,23 @@ const SignUpPage = () => {
 }
 
 const SignUpFormBase = ({ firebase }) => {
-    const [localUser, setLocalUser ] = useLocalStorage('local_user');
-    const navigate = useNavigate();
+    const [localUser, setLocalUser ] = useLocalStorage('local_user')
+    const navigate = useNavigate()
+
+    const mutation = useMutation(user => createUser(user), {
+        onSuccess: (data) => {
+            setLocalUser(() => data)
+            navigate('/account')
+        },
+        onError: (error) => {
+            console.error(error)
+        }
+    }) 
     
     const onFinish = ({ email, password, firstName, lastName }) => {
         firebase.getCreateUserWithEmailAndPassword(email, password)
         .then(res => {
-            const { user: { uid } } = res;
+            const { user: { uid } } = res
             const newAuthUser = {
                 auth_id: uid,
                 first_name: firstName,
@@ -37,21 +58,14 @@ const SignUpFormBase = ({ firebase }) => {
                 email: email,
                 purchases: [],
                 balance: 100000.00
-            };
-            
-            const createDBUser = createUser(newAuthUser);
-            const getDBUser = async () => {
-                const res = await createDBUser;
-                setLocalUser(res);
             }
 
-            getDBUser();
-            navigate('/');
+            mutation.mutate(newAuthUser)
         })
         .catch(error => {
-            console.error('error signing up...', error);
-            // navigate('/notFound', { state: error });
-        });
+            console.error('error signing up...', error)
+            // navigate('/notFound', { state: error })
+        })
     }
 
     return (
@@ -111,11 +125,10 @@ const SignUpFormBase = ({ firebase }) => {
            </Form.Item>
         </Form>
     )
-
 }
 
-const SignUpForm = compose(withFireBase)(SignUpFormBase);
-const SignUpLink = () => <div className='sign-up-link'><span>Don't have an account? <Link to='/signup'>Sign Up</Link></span></div>;
+const SignUpForm = compose(withFireBase)(SignUpFormBase)
+const SignUpLink = () => <div className='sign-up-link'><span>Don't have an account? <Link to='/signup'>Sign Up</Link></span></div>
 
-export default SignUpPage;
+export default SignUpPage
 export { SignUpLink }

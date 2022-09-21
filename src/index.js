@@ -34,8 +34,16 @@ root.render(
         <BrowserRouter>
             <Routes>
                 <Route path='/' element={<App/>}>
-                  <Route index element={<Dashboard/>}/>
-                  <Route path='/cryptos' element={<Cryptos/>}/>
+                  <Route index element={
+                    <RequireAuth>
+                      <Dashboard/>
+                    </RequireAuth>
+                  }/>
+                  <Route path='/cryptos' element={
+                    <RequireAuth>
+                      <Cryptos/>
+                    </RequireAuth>
+                  }/>
                   <Route path='/account' element={
                     <RequireAuth>
                       <Account/>
