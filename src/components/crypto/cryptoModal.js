@@ -88,9 +88,9 @@ const CryptoModal = ({ id, setModalVisible, modalVisible }) => {
                 <div>
                     <section className='modal-buy-box-container'>
                         <div>
-                            <h2>{modalInfo.name}<span style={ screens.xs ? { fontSize: '0.75rem', verticalAlign: 'super' } : {}}>{`(${modalInfo.symbol})`}</span></h2>
+                            <h2>{modalInfo.name}<span style={ screens.xs ? { fontSize: '0.75rem', verticalAlign: 'super' } : {} }>{`(${modalInfo.symbol})`}</span></h2>
                             <div className='modal-top-section'>
-                                <span style={ screens.xs ? { fontSize: '1.15rem' } : {}}>${modalInfo.price.toLocaleString('en-US')}</span>
+                                <span style={{ fontSize: screens.xs ? '1.15rem' : {} }}>${modalInfo.price.toLocaleString('en-US')}</span>
                                 <span style={isTrending ? {color: 'green'} : {color: 'red'}}>{isTrending ? '+' : ''}{millify(modalInfo.change)}%</span>
                             </div>
                             <div className='modal-bottom-section'>
@@ -111,7 +111,7 @@ const CryptoModal = ({ id, setModalVisible, modalVisible }) => {
                                     <PlusCircleOutlined id='add-share' onClick={e => handleShareUpdates(e)}/>
                                 </div>
                                 <div className='modal-buy-box-bottom'>
-                                    <span style={ screens.xs ? { fontSize: '1.1rem' } : {}}>Total: ${purchaseData?.cost}</span>
+                                    <span style={{ fontSize: screens.xs ? '1.1rem' : {} }}>Total: ${purchaseData?.cost}</span>
                                 </div>
                             </div>
                         </div>

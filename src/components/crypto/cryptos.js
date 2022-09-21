@@ -51,7 +51,7 @@ const Cryptocurrencies = ({ limit }) => {
     return (
         <Row className='crypto-container'>
             <Col>
-                { limit ? (<div className='all-assets-link'><Button shape='round'><Link to='/cryptos'>All Assets</Link></Button></div>) : (<Title style={ screens.xs ? { fontSize: '1.75rem' } : {}} className="component-title">Top Cryptocurrencies</Title>) }
+                { limit ? (<div className='all-assets-link'><Button shape='round'><Link to='/cryptos'>All Assets</Link></Button></div>) : (<Title style={{ fontSize: screens.xs ? '1.75rem' : '' }} className="component-title">Top Cryptocurrencies</Title>) }
                 <Table dataSource={dataSource()} columns={columns} pagination={{ pageSize: 25 }}/>
                 { modalVisible && <CryptoModal id={ modalId } setModalVisible={ setModalVisible } modalVisible={ modalVisible }/> }
             </Col>
