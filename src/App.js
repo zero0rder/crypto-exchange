@@ -1,9 +1,9 @@
-import { Outlet } from 'react-router-dom';
-import { withAuth } from './utils/session/index';
-import MainHeader from './components/layout/mainHeader';
-import MainFooter from './components/layout/mainFooter';
-import { Layout } from 'antd';
-const { Content } = Layout;
+import { Outlet } from 'react-router-dom'
+import { withAuth } from './utils/session/index'
+import MainHeader from './components/layout/mainHeader'
+import MainFooter from './components/layout/mainFooter'
+import { Layout, BackTop } from 'antd'
+const { Content } = Layout
 
 function App() {
   return (
@@ -13,8 +13,9 @@ function App() {
           <Outlet />
         </Content>
         <MainFooter />
+        <BackTop />
       </Layout>
-  );
+  )
 }
 
-export default withAuth(App);
+export default withAuth(App)
