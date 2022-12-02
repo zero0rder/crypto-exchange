@@ -3,25 +3,15 @@ import { useNavigate, Link } from 'react-router-dom'
 import { withFireBase } from '../../utils/firebase/index'
 import { useMutation } from '@tanstack/react-query'
 import { compose } from 'recompose'
-import { Button, Form, Input, Row, Col, Divider, Alert, Grid } from 'antd'
+import { Button, Form, Input, Row, Col, Divider } from 'antd'
 import { createUser } from '../../api/accounts/user'
 import useLocalStorage from '../../hooks/useLocalStorage'
-const { useBreakpoint } = Grid
 
 const SignUpPage = () => {
-    const screens = useBreakpoint()
-
     return (
         <Row className='page-container-row'>
             <Col span={18}>
                 <section className='sign-up-page'>
-                    <Alert
-                    style={{ width: screens.xs ? '100%' : '50%' }}
-                    message="For Demo Purposes"
-                    description="Feel free to enter fake info!"
-                    type="info"
-                    showIcon
-                    banner />
                     <div>
                         <h2>Sign Up</h2>
                         <Divider />

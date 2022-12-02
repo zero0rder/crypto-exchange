@@ -85,8 +85,8 @@ const AccountTotals = ({ stats }) => {
         <div>
             <p style={ screens.xs ? { width: '57%' } : {}}>Totals:</p>
             <div>
-                <span style={ screens.xs ? { width: '55%' } : {}}>{userTotals?.shares}</span>
-                <span style={ screens.xs ? { width: '74%' } : {}}>$ {userTotals?.totalCost}</span>
+                <span style={ screens.xs ? { width: '35%' } : {}}>{userTotals?.shares}</span>
+                <span style={ screens.xs ? { width: '85%' } : {}}>$ {userTotals?.totalCost}</span>
             </div>
         </div>
     )

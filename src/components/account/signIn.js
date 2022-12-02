@@ -6,23 +6,13 @@ import { fetchUser } from '../../api/accounts/user'
 import { compose } from 'recompose'
 import { SignUpLink } from "./signUp"
 import useLocalStorage from '../../hooks/useLocalStorage'
-import { Button, Form, Input, Row, Col, Divider, Alert, Grid } from 'antd'
-const { useBreakpoint } = Grid
+import { Button, Form, Input, Row, Col, Divider } from 'antd'
 
 const SignInPage = () => {
-    const screens = useBreakpoint()
-
     return (
         <Row className='page-container-row'>
             <Col span={18}>
                 <section className='sign-in-page'>
-                    <Alert
-                    style={{ width: screens.xs ? '100%' : '50%' }}
-                    message="For Demo Purposes"
-                    description="Feel free to enter fake info!"
-                    type="info"
-                    showIcon
-                    banner />
                     <div>
                         <h2>Sign In</h2>
                         <Divider />

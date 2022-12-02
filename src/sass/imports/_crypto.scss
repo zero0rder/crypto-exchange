@@ -22,9 +22,15 @@
                 display: flex;
                 align-items: center;
 
+                > span {
+                    margin-right: 1rem;
+                }
+
                 > a {
                     display: inline-block;
-                    color: #000;
+                    color: #ACABA9;
+                    text-decoration: underline;
+                    font-style: italic;
                 }
             }
         }

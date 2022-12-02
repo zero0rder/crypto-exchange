@@ -26,9 +26,23 @@
 
         .ant-form-item {
             justify-content: center;
+            flex-direction: column;
+            gap: 0.5rem;
 
-            &:last-child {
-                text-align: center;
+            &:last-child .ant-col {
+                text-align: center !important;
+            }
+
+            div.ant-col {
+                &:first-child {
+                    text-align: left;
+                    margin-left: 25%;
+                }
+    
+                &:last-child {
+                    margin: auto;
+                    width: 50%;
+                }
             }
         }
     }
@@ -36,23 +50,4 @@
 
 .sign-up-link {
   text-align: center;
-}
-
-.ant-alert-banner {
-    margin: auto !important;
-    display: flex !important;
-    align-items: center !important;
-
-    .ant-alert-icon {
-        font-size: 35px !important;
-        margin: 0 !important;
-    }
-
-    .ant-alert-content {
-        text-align: center;
-
-        .ant-alert-message {
-            font-weight: bold;
-        }
-    }
 }
