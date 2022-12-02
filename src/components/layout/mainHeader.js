@@ -45,6 +45,10 @@ const MainHeader = () => {
     const toggleDrawer = () => setDrawerVisible(prev => !prev)
     const onClose = () => setDrawerVisible(false)
     const screens = useBreakpoint()
+    const closeDrawerOnNavigate = (url) => {
+        navigate(url)
+        toggleDrawer()
+    }
 
     return (
         <Header className="navbar" style={{ padding: screens.xs ? '0 32px' : '' }}>
@@ -60,7 +64,7 @@ const MainHeader = () => {
                             {
                                 menuItems?.map((m, i) => (
                                     <div key={i}>
-                                        <span onClick={() => navigate(m.key)}>
+                                        <span onClick={() => closeDrawerOnNavigate(m.key)}>
                                             <span>{ m.icon }</span>
                                             <span>{ m.label }</span>
                                         </span>
