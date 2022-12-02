@@ -8,13 +8,14 @@ import { Spin, Modal, Divider, Grid, Skeleton } from 'antd'
 import { PlusCircleOutlined, MinusCircleOutlined } from '@ant-design/icons'
 const { useBreakpoint } = Grid
 
-const CryptoModal = ({ id, setModalVisible, modalVisible }) => {
+const CryptoModal = ({ id, setModalVisible, modalVisible, purchaseOk }) => {
     const { data: quotes, isError, isLoading, error } = useQuery(['getCryptoQuote', id], () => getCryptoQuote(id))
     const [purchaseData, setPurchaseData] = useState({shareCount: 0, cost: 0})
     const [confirmLoading, setConfirmLoading] = useState(false)
     const [localUser, setLocalUser] = useLocalStorage('local_user')
     const modalData = quotes?.data[id]
     const screens = useBreakpoint()
+
     const modalInfo = {
         id: id,
         name: modalData?.name,
@@ -35,6 +36,7 @@ const CryptoModal = ({ id, setModalVisible, modalVisible }) => {
             setTimeout(() => {
                 setConfirmLoading(false)
                 setModalVisible(prev => !prev)
+                purchaseOk()
             }, 3500)
         },
         onError: (error) => {
@@ -42,7 +44,7 @@ const CryptoModal = ({ id, setModalVisible, modalVisible }) => {
         }
     }) 
 
-    const onOk = async () => {
+    const onOk = () => {
         const totalShareCost = parseFloat(purchaseData.cost.replace(',', ''))
         const purchaseObj = {
             _id: localUser._id,
@@ -90,7 +92,7 @@ const CryptoModal = ({ id, setModalVisible, modalVisible }) => {
                         <div>
                             <h2>{modalInfo.name}<span style={ screens.xs ? { fontSize: '0.75rem', verticalAlign: 'super' } : {} }>{`(${modalInfo.symbol})`}</span></h2>
                             <div className='modal-top-section'>
-                                <span style={{ fontSize: screens.xs ? '1.15rem' : {} }}>${modalInfo.price.toLocaleString('en-US')}</span>
+                                <span style={{ fontSize: screens.xs ? '1rem' : {} }}>${modalInfo.price.toLocaleString('en-US')}</span>
                                 <span style={isTrending ? {color: 'green'} : {color: 'red'}}>{isTrending ? '+' : ''}{millify(modalInfo.change)}%</span>
                             </div>
                             <div className='modal-bottom-section'>

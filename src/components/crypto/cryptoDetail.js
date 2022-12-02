@@ -7,8 +7,9 @@ import useLocalStorage from '../../hooks/useLocalStorage'
 import HTMLReactParser from 'html-react-parser'
 import millify from 'millify'
 import { Line } from 'react-chartjs-2'
+// eslint-disable-next-line
 import { Chart as ChartJS } from 'chart.js/auto'
-import { Row, Col, Divider, Spin, Avatar, Card, Button, Grid } from 'antd'
+import { Row, Col, Divider, Spin, Avatar, Card, Button, Grid, message } from 'antd'
 import { StarOutlined, PlusCircleOutlined, MinusCircleOutlined  } from '@ant-design/icons'
 const { useBreakpoint } = Grid
 
@@ -18,23 +19,37 @@ const CryptoDetail = () => {
     const { data: info, isError: isErrorInfo, isLoading: isLoadingInfo, error: errorInfo } = useQuery(['getCryptoInfo', coinId], () => getCryptoInfo(coinId))
     const [purchaseData, setPurchaseData] = useState({shareCount: 0, cost: 0})
     const [localUser, setLocalUser] = useLocalStorage('local_user')
+    const [isPurchaseLoading, setIsPurchaseLoading] = useState(false)
+    const [messageApi, contextHolder] = message.useMessage()
     const coinQuote = quotes?.data[coinId]
     const coinInfo = info?.data[coinId]
     const screens = useBreakpoint()
 
     const handleShareUpdates = (e) => {
-        e.preventDefault();
+        e.preventDefault()
         
         setPurchaseData((prev) => {
             const newShareCount = e.target.closest('span').id === 'add-share' ? prev.shareCount + 1 : (purchaseData.shareCount > 0 ? prev.shareCount - 1 : 0);
             const newTotalPrice = coinQuote.quote.USD?.price * newShareCount;
             return { shareCount: newShareCount, cost: newTotalPrice.toLocaleString('en-US', { maximumFractionDigits: 2, minimumFractionDigits: 2 }) };
-        });
+        })
+    }
+
+    const purchaseOk = () => {
+        messageApi.open({
+            type: 'success',
+            content: 'Successfully purchased item!',
+            duration: 2.5
+        })
     }
 
     const mutation = useMutation(purchase => addPurchase(purchase), {
         onSuccess: (data) => {
             setLocalUser(() => data)
+            setTimeout(() => {
+                setIsPurchaseLoading(false)
+            }, 2500)
+            purchaseOk()
         },
         onError: (error, vars) => {
             console.error({ error, vars })
@@ -52,7 +67,8 @@ const CryptoDetail = () => {
             cost: totalShareCost,
             shareCount: purchaseData.shareCount
         }
-
+        
+        setIsPurchaseLoading(true)
         mutation.mutate(purchaseObj)
     }
     
@@ -88,6 +104,7 @@ const CryptoDetail = () => {
     
     return (
         <div className='details-page-container'>
+            {contextHolder}
             <Row>
                 <Col className='details-header' span={24} style={ screens.xs ? { flexDirection: 'column' } : {}}>
                     <div>
@@ -147,7 +164,7 @@ const CryptoDetail = () => {
                                 <div className='details-buy-box-bottom'>
                                     <span>Total: ${purchaseData?.cost.toLocaleString('en-US', { maximumFractionDigits: 2, minimumFractionDigits: 2 })}</span>
                                     <div>
-                                        <Button type='primary' onClick={() => handlePurchase()} disabled={(typeof localUser !== 'object')}>Buy</Button>
+                                        <Button type='primary' loading={isPurchaseLoading} onClick={() => handlePurchase()} disabled={(typeof localUser !== 'object')}>Buy</Button>
                                     </div>
                                 </div>
                             </div>
