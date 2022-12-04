@@ -28,8 +28,8 @@ const menuItems = [
 
 const NotAuthSettings = () => (
     <div className='logged-out'>
-        <Button size='small' type='primary'><Link to='/signin'>Sign In</Link></Button>
-        <Button size='small' type='primary'><Link to='/signup'>Sign Up</Link></Button>
+        <Button size='medium' shape='round' type='primary'><Link to='/signin'>Sign In</Link></Button>
+        <Button size='medium' shape='round' type='primary'><Link to='/signup'>Sign Up</Link></Button>
     </div>
 )
 
@@ -60,7 +60,7 @@ const MainHeader = () => {
                         placement="left" 
                         onClose={onClose} 
                         visible={drawerVisible} 
-                        width='70%'>
+                        width='50%'>
                             {
                                 menuItems?.map((m, i) => (
                                     <div key={i}>

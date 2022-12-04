@@ -112,7 +112,7 @@ const CryptoDetail = () => {
                         <h1 className='title_h1'>{`${coinInfo.name}`}</h1>
                         <h2 className='title_h2'>{`(${coinInfo.symbol})`}</h2>
                     </div>
-                    <Button type='primary' size='large' icon={<StarOutlined />}>Watchlist</Button>
+                    <Button type='primary' shape='round' size='large' icon={<StarOutlined />}>Watchlist</Button>
                 </Col>
             </Row>
             <Row className='details-overview'>
@@ -164,7 +164,7 @@ const CryptoDetail = () => {
                                 <div className='details-buy-box-bottom'>
                                     <span>Total: ${purchaseData?.cost.toLocaleString('en-US', { maximumFractionDigits: 2, minimumFractionDigits: 2 })}</span>
                                     <div>
-                                        <Button type='primary' loading={isPurchaseLoading} onClick={() => handlePurchase()} disabled={(typeof localUser !== 'object')}>Buy</Button>
+                                        <Button type='primary' shape='round' loading={isPurchaseLoading} onClick={() => handlePurchase()} disabled={(typeof localUser !== 'object')}>Buy</Button>
                                     </div>
                                 </div>
                             </div>
