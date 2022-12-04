@@ -15,7 +15,7 @@ const SignOutBase = ({ firebase }) => {
         navigate('/')
     }
 
-    return <Button type='primary' onClick={() => signOutHandler()}>Sign Out</Button>
+    return <Button type='primary' shape='round' onClick={() => signOutHandler()}>Sign Out</Button>
 }
 
 const SignOut = compose(withFireBase)(SignOutBase)

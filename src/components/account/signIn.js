@@ -7,16 +7,13 @@ import { compose } from 'recompose'
 import { SignUpLink } from "./signUp"
 import useLocalStorage from '../../hooks/useLocalStorage'
 import { Button, Form, Input, Row, Col, Divider } from 'antd'
+import { GoogleOutlined } from '@ant-design/icons'
 
 const SignInPage = () => {
     return (
         <Row className='page-container-row'>
             <Col span={18}>
                 <section className='sign-in-page'>
-                    <div>
-                        <h2>Sign In</h2>
-                        <Divider />
-                    </div>
                     <SignInForm/>
                     <SignUpLink/>
                 </section>
@@ -53,8 +50,18 @@ const SignInFormBase = ({ firebase }) => {
         })
     }
 
+    const openGooglePopup = () => firebase.getSignInWithPopup().then((user) => {
+        userId = user.uid
+        refetch()
+    })
+
     return (
         <>
+            <div className='google-signin'>
+                <Button type='primary' shape='round' size='large' 
+                onClick={() => openGooglePopup()}><GoogleOutlined />Sign in with Google</Button>
+            </div>
+            <Divider>Or Email</Divider>
             <Form
                 name='sign-in'
                 labelCol={{span: 4,}}
@@ -87,7 +94,7 @@ const SignInFormBase = ({ firebase }) => {
                     wrapperCol={{
                     span: 24,
                 }}>
-                    <Button type='primary' htmlType='submit'>Submit</Button>
+                    <Button type='primary' shape='round' htmlType='submit'>Submit</Button>
                 </Form.Item>
             </Form>
         </>

@@ -37,17 +37,25 @@
                 &:first-child {
                     text-align: left;
                     margin-left: 25%;
+                    @media (max-width: 675px) { margin-left: 13%; }
                 }
     
                 &:last-child {
                     margin: auto;
                     width: 50%;
+                    @media (max-width: 675px) { width: 75%; }
                 }
             }
         }
     }
+
+    .google-signin {
+        text-align: center;
+        margin: 3rem 0;
+    }
 }
 
 .sign-up-link {
-  text-align: center;
+    padding: 2rem 0;
+    text-align: center;
 }
