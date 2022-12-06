@@ -6,13 +6,14 @@ import { Button } from 'antd'
 import { compose } from 'recompose'
 
 const SignOutBase = ({ firebase }) => {
+    // eslint-disable-next-line
     const [localUser, setLocalUser ] = useLocalStorage('local_user')
     const navigate = useNavigate()
 
     const signOutHandler = () => {
-        firebase.doSignOut()
         setLocalUser('')
-        navigate('/')
+        firebase.doSignOut()
+        navigate('/signin')
     }
 
     return <Button type='primary' shape='round' onClick={() => signOutHandler()}>Sign Out</Button>

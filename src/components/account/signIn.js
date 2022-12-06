@@ -23,6 +23,7 @@ const SignInPage = () => {
 }
 
 const SignInFormBase = ({ firebase }) => {
+    // eslint-disable-next-line
     const [localUser, setLocalUser] = useLocalStorage('local_user')
     const navigate = useNavigate()
     let userId = null

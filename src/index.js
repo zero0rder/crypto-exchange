@@ -29,7 +29,7 @@ const root = createRoot(container)
 
 root.render(
   <React.StrictMode>
-    <FirebaseContext.Provider value={new Firebase()}>
+    <FirebaseContext.Provider value={Firebase}>
       <QueryClientProvider client={queryClient}>
         <BrowserRouter>
             <Routes>
@@ -49,7 +49,11 @@ root.render(
                       <Account/>
                     </RequireAuth>
                   }/>
-                  <Route path='/crypto/:coinId' element={<CryptoDetail/>}/>
+                  <Route path='/crypto/:coinId' element={
+                    <RequireAuth>
+                      <CryptoDetail/>
+                    </RequireAuth>
+                  }/>
                   <Route path='/signup' element={<SignUpPage/>}/>
                   <Route path='/signin' element={<SignInPage/>}/>
                   <Route path='*' element={<NotFound/>}/>

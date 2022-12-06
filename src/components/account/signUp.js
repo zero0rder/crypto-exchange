@@ -21,6 +21,7 @@ const SignUpPage = () => {
 }
 
 const SignUpFormBase = ({ firebase }) => {
+    // eslint-disable-next-line
     const [localUser, setLocalUser ] = useLocalStorage('local_user')
     const navigate = useNavigate()
 
