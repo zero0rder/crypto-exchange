@@ -15,16 +15,15 @@ const Firebase = (function() {
     let app = initializeApp(firebaseConfig),
         auth = getAuth(app)
 
-    const getCreateUserWithEmailAndPassword = (email, password) => createUserWithEmailAndPassword(auth, email, password)
-    const getSignInWithEmailAndPassword = (email, password) => signInWithEmailAndPassword(auth, email, password)
+    const getCreateUserWithEmailAndPassword = async (email, password) => await createUserWithEmailAndPassword(auth, email, password)
+    const getSignInWithEmailAndPassword = async (email, password) => await signInWithEmailAndPassword(auth, email, password)
     const getOnAuthStateChanged = (cb) => onAuthStateChanged(auth, cb)
-    const doSignOut = () => signOut(auth)
-    const getSignInWithPopup = () => signInWithPopup(auth, new GoogleAuthProvider())
+    const doSignOut = async () => await signOut(auth)
+    const getSignInWithPopup = async () => await signInWithPopup(auth, new GoogleAuthProvider())
         .then((res) => {
             // This gives you a Google Access Token. You can use it to access the Google API.
             // const credential = GoogleAuthProvider.credentialFromResult(res)
             // const token = credential.accessToken
-
             // return signed-in user info.
             return res.user
 
