@@ -21,7 +21,7 @@ export const getExchanges = async (req, res) => {
         res.json(data);
 
     } catch(err) {
-        return console.error('server request failed: ', err);
+        throw new Error(`[Server request failed]: ${err}`);
     }
 
 }
@@ -35,7 +35,7 @@ export const getExchangeInfo = async (req, res) => {
         res.json(data);
 
     } catch(err) {
-        return console.error('server request failed: ', err);
+        throw new Error(`[Server request failed]: ${err}`);
     }
 
 }

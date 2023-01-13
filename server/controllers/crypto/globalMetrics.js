@@ -16,9 +16,13 @@ export const getGlobalCryptoData = async (req, res) => {
     try {
         const response = await fetch(`${baseUrl}/v1/global-metrics/quotes/latest`, reqOptions);
         const data = await response.json();
+
+        if(!req.isCached)
+            req.setCacheItem(data);
+
         res.json(data);
 
     } catch(err) {
-        return console.error('server request failed: ', err);
+        throw new Error(`[Server request failed]: ${err}`);
     }
 }

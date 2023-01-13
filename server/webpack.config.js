@@ -23,5 +23,8 @@ export default {
                 presets: ['@babel/preset-env'],
             }
         }]
+    },
+    experiments: {
+        topLevelAwait: true
     }
 }
