@@ -18,10 +18,14 @@ export const getCryptos = async (req, res) => {
     try {
         const response = await fetch(`${baseUrl}/v1/cryptocurrency/listings/latest?limit=${limit}`, reqOptions);
         const data = await response.json();
+
+        if(!req.isCached)
+            req.setCacheItem(data);
+        
         res.json(data);
 
     } catch(err) {
-        return console.error('server request failed: ', err);
+        throw new Error(`[Server request failed]: ${err}`);
     }
 }
 
@@ -31,10 +35,14 @@ export const getCryptoInfo = async (req, res) => {
     try {
         const response = await fetch(`${baseUrl}/v1/cryptocurrency/info?id=${id}`, reqOptions);
         const data = await response.json();
+
+        if(!req.isCached)
+            req.setCacheItem(data);
+
         res.json(data);
 
     } catch(err) {
-        return console.error('server request failed: ', err);
+        throw new Error(`[Server request failed]: ${err}`);
     }
 }
 
@@ -45,9 +53,13 @@ export const getCryptoQuote = async (req, res) => {
     try {
         const response = await fetch(`${baseUrl}/v2/cryptocurrency/quotes/latest?id=${id}`, reqOptions);
         const data = await response.json();
+
+        if(!req.isCached)
+            req.setCacheItem(data);
+
         res.json(data);
 
     } catch(err) {
-        return console.error('server request failed: ', err);
+        throw new Error(`[Server request failed]: ${err}`);
     }
 }
