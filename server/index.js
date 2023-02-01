@@ -7,6 +7,7 @@ import CryptoRoutes from './routes/crypto/cryptocurrencies.js';
 import ExchangeRoutes from './routes/crypto/exchanges.js';
 import GlobalRoutes from './routes/crypto/globalMetrics.js';
 import UserRoutes from './routes/users/user.js';
+import helmet from 'helmet';
 
 //redis cache
 const redis = new createClient({
@@ -20,6 +21,7 @@ await redis.connect();
 
 const app = express();
 dotenv.config();
+app.use(helmet());
 
 app.use(express.json({ limit: '30mb', extended: true }));
 app.use(express.urlencoded({ limit: '30mb', extended: true }));
